@@ -2,31 +2,39 @@ html, body{
   margin: 0px;
 }
 
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+#body-container {
+  margin: 0px auto;
+  margin-top: 60px;
+  width: 40%;
 }
 
 .nav-link {
-  font-size: 30px;
+  font-size: 20px;
   text-decoration: none;
   color: #495363;
-  margin: 0px 5px 0px 5px;
+  margin: auto;
 }
 
 #header{
-  margin: 0px 10px 0px 10px;
+  font-size: 40px;
+  margin: auto;
+}
+
+#header-img{
+  margin: 0px auto;
+  border-radius: 50%;
+  max-width: 150px;
+  max-height: 150px;
 }
 
 #header-container {
   margin: 0px auto;
-  width: 100%;
-  font-size: 50px;
+  width: 50%;
   font-family: 'Roboto Mono', monospace;
   font-weight: 600;
-  padding: 30px 0px 30px 50px;
+  padding: 60px 0px 40px 60px;
   color: #1c1c1c;
+  display: flex;
 }
 
 #greeting-container {
