@@ -1,46 +1,127 @@
-html, body{
+/**
+ ** Global
+ **/
+
+html, body {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
   margin: 0px;
 }
 
-#body-container {
-  margin: 0px auto;
-  margin-top: 60px;
-  width: 40%;
+a {
+  color: #328753;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  text-decoration: none;
 }
+
+/**
+ ** Header
+ **/
 
 .nav-link {
+  color: #328753;
   font-size: 20px;
-  text-decoration: none;
-  color: #495363;
   margin: auto;
+  text-decoration: none;
 }
 
-#header{
+#header {
   font-size: 40px;
   margin: auto;
 }
 
-#header-img{
-  margin: 0px auto;
+#header-img {
   border-radius: 50%;
-  max-width: 150px;
+  margin: 0px auto;
   max-height: 150px;
+  max-width: 150px;
 }
 
 #header-container {
-  margin: 0px auto;
-  width: 50%;
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 600;
-  padding: 60px 0px 40px 60px;
   color: #1c1c1c;
   display: flex;
+  flex-wrap: wrap;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  margin: 0px auto;
+  padding: 60px 0px 40px 60px;
+  width: 50%;
 }
 
-#greeting-container {
-  margin-top: 20px;
+/**
+ ** Body
+ **/
+
+#body-container {
+  margin: 0px auto;
+  margin-top: 30px;
+  width: 40%;
 }
 
-img{
-    max-height: 500px;
+/**
+ ** Preview boxes
+ **/
+
+/* The text above a preview box */
+.preview-title {
+  color: #313131;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 25px;
+  font-weight: 600;
+  margin: 50px 0px 20px 20px;
+}
+
+/* The container around a preview box */
+ .preview-container {
+  border-radius: 10px;
+  box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  -moz-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  -webkit-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  padding: 30px;
+}
+
+/* Smaller titles within a preview box */
+.preview-subtitle {
+  color: #3c5e49;
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0px 25px 15px 0px;
+  text-align: right;
+}
+
+/* A normal paragraph in a preview box */
+.preview-paragraph {
+  color: #1c1c1c;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+}
+
+/* The description to the left 
+   of an image in a preview box */
+.preview-img-description {
+  margin: 0px 25px 0px 0px;
+  text-align: right;
+  line-height: 20px;
+}
+
+/* The container for all text to the 
+   left of an image in a preview box */
+.preview-img-text {
+  min-width: 300px;
+}
+
+/* The image in a preview box */
+.preview-img {
+  margin: 0px;
+  max-width: 400px;
+}
+
+/* The top-level container for a
+   text-image combo block */
+.preview-img-w-text{
+  align-content: stretch;
+  display: flex;
+  width: 100%;
 }
