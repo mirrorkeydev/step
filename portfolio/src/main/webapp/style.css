@@ -115,9 +115,9 @@ a {
 /* The description to the left 
    of an image in a preview box */
 .preview-img-description {
+  line-height: 20px;
   margin: 0px 25px 0px 0px;
   text-align: right;
-  line-height: 20px;
 }
 
 /* The container for all text to the 
@@ -140,6 +140,24 @@ a {
   overflow: hidden;
   width: 100%;
 }
+
+/*
+ * Footer
+ */
+
+#footer-container{
+  margin: 60px 0px 0px 0px;
+  padding: 20px 0px 30px 0px;
+}
+
+.footer-text{
+  margin: 0 auto;
+  text-align: center;
+}
+
+/*
+ * Responsivity (media queries)
+ */
 
 /* Adjustments for large screens (>1700px)*/
 @media only screen and (min-width: 1700px) {
