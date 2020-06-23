@@ -9,10 +9,14 @@ html, body {
 }
 
 a {
-  color: #328753;
+  color: #0f803a;
   font-family: 'Raleway', sans-serif;
   font-weight: 500;
   text-decoration: none;
+}
+
+.icon-link {
+  color: #3a3a3a;
 }
 
 /**
@@ -26,7 +30,6 @@ a {
 }
 
 .nav-link {
-  color: #328753;
   font-size: 20px;
   margin: 10px;
   text-decoration: none;
@@ -72,7 +75,7 @@ a {
 }
 
 /**
- ** Preview boxes
+ ** All Preview boxes
  **/
 
 /* The text above a preview box */
@@ -97,7 +100,7 @@ a {
 
 /* Smaller titles within a preview box */
 .preview-subtitle {
-  color: #3c5e49;
+  color: #07692c;
   font-family: 'Raleway', sans-serif;
   font-size: 20px;
   font-weight: 700;
@@ -141,6 +144,14 @@ a {
   width: 100%;
 }
 
+/* A grid of icons (e.g. contact) */
+.preview-icons-grid {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: min-content;
+}
+
 /*
  * Footer
  */
@@ -154,6 +165,15 @@ a {
   margin: 0 auto;
   text-align: center;
 }
+
+/*
+ * Contact preview box
+ */
+
+.icon-link{
+  margin: 10px;
+}
+
 
 /*
  * Responsivity (media queries)
