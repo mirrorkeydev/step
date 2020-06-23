@@ -58,7 +58,7 @@ a {
   justify-content: center;
   margin: 0px auto;
   padding: 40px 0px 0px 0px;
-  width: 40%;
+  width: 60%;
 }
 
 /**
@@ -81,7 +81,7 @@ a {
   font-family: 'Roboto Mono', monospace;
   font-size: 25px;
   font-weight: 600;
-  margin: 50px 0px 0px 30%;
+  margin: 50px 0px 0px 15%;
 }
 
 /* The container that constitutes a preview box */
@@ -92,7 +92,7 @@ a {
   -webkit-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
   margin: 20px auto;
   padding: 30px;
-  width: 40%;
+  width: 70%;
 }
 
 /* Smaller titles within a preview box */
@@ -141,17 +141,17 @@ a {
   width: 100%;
 }
 
-/* Adjustments for large screens */
-@media only screen and (max-width: 1700px) {
+/* Adjustments for large screens (>1700px)*/
+@media only screen and (min-width: 1700px) {
   .preview-title {
-    margin: 50px 0px 0px 15%;
+    margin: 50px 0px 0px 30%;
   }
-
+  
   .preview-container {
-    width: 70%;
+    width: 40%;
   }
-
+  
   #header-container {
-    width: 60%;
+    width: 40%;
   }
 }
