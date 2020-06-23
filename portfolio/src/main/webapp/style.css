@@ -22,7 +22,7 @@ a {
 #nav-links{
   align-items: center;
   display: flex;
-  padding: 10px;
+  padding: 50px 10px 50px 10px;
 }
 
 .nav-link {
@@ -34,7 +34,9 @@ a {
 
 #header {
   font-size: 40px;
-  margin: auto;
+  flex: 1 1 100px;
+  flex-shrink: 3;
+  margin: 10px;
   text-align: center;
 }
 
@@ -47,7 +49,7 @@ a {
 }
 
 #header-container {
-  align-items: stretch;
+  align-items: center;
   color: #1c1c1c;
   display: flex;
   flex-wrap: wrap;
@@ -56,7 +58,7 @@ a {
   justify-content: center;
   margin: 0px auto;
   padding: 40px 0px 0px 0px;
-  width: 60%;
+  width: 40%;
 }
 
 /**
@@ -149,19 +151,7 @@ a {
     width: 70%;
   }
 
-}
-
-/* Adjustments for small screens */
-@media
-only screen and (min-width: 2100) {
   #header-container {
-    width: 40%;
-  }
-}
-
-@media
-only screen and (min-width: 600px){
-  #header-container {
-    width: 40%;
+    width: 60%;
   }
 }
