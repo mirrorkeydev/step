@@ -25,7 +25,6 @@ a:hover{
  ** Header and Nav Bar
  **/
 
-
 #nav-links{
   align-items: center;
   display: flex;
@@ -183,7 +182,6 @@ a:hover{
 .icon-link{
   margin: 10px;
 }
-
 
 /*
  * Responsivity (media queries)
