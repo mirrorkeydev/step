@@ -15,23 +15,29 @@ a {
   text-decoration: none;
 }
 
-.icon-link {
-  color: #3a3a3a;
+a:hover{
+  text-decoration: underline rgb(195, 195, 195);
+  text-decoration-thickness: 5px;
+  color: #1c1c1c;
 }
 
 /**
- ** Header
+ ** Header and Nav Bar
  **/
+
 
 #nav-links{
   align-items: center;
   display: flex;
-  padding: 50px 10px 50px 10px;
+  justify-content: center;
+  margin: 50px 10px 40px 10px;
+  padding: 0px 20px 0px 20px;
 }
 
 .nav-link {
   font-size: 20px;
-  margin: 10px;
+  line-height: 1.5;
+  padding: 10px;
   text-decoration: none;
 }
 
@@ -150,6 +156,10 @@ a {
   justify-content: center;
   margin: 0 auto;
   width: min-content;
+}
+
+.icon-link {
+  color: #3a3a3a;
 }
 
 /*
