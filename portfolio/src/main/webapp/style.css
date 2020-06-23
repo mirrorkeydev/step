@@ -19,16 +19,23 @@ a {
  ** Header
  **/
 
+#nav-links{
+  align-items: center;
+  display: flex;
+  padding: 10px;
+}
+
 .nav-link {
   color: #328753;
   font-size: 20px;
-  margin: auto;
+  margin: 10px;
   text-decoration: none;
 }
 
 #header {
   font-size: 40px;
   margin: auto;
+  text-align: center;
 }
 
 #header-img {
@@ -36,17 +43,20 @@ a {
   margin: 0px auto;
   max-height: 150px;
   max-width: 150px;
+  margin: 20px;
 }
 
 #header-container {
+  align-items: stretch;
   color: #1c1c1c;
   display: flex;
   flex-wrap: wrap;
   font-family: 'Roboto Mono', monospace;
   font-weight: 600;
+  justify-content: center;
   margin: 0px auto;
-  padding: 60px 0px 40px 60px;
-  width: 50%;
+  padding: 40px 0px 0px 0px;
+  width: 60%;
 }
 
 /**
@@ -56,7 +66,7 @@ a {
 #body-container {
   margin: 0px auto;
   margin-top: 30px;
-  width: 40%;
+  width: 100%;
 }
 
 /**
@@ -69,16 +79,18 @@ a {
   font-family: 'Roboto Mono', monospace;
   font-size: 25px;
   font-weight: 600;
-  margin: 50px 0px 20px 20px;
+  margin: 50px 0px 0px 30%;
 }
 
-/* The container around a preview box */
+/* The container that constitutes a preview box */
  .preview-container {
   border-radius: 10px;
   box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
   -moz-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
   -webkit-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  margin: 20px auto;
   padding: 30px;
+  width: 40%;
 }
 
 /* Smaller titles within a preview box */
@@ -123,5 +135,33 @@ a {
 .preview-img-w-text{
   align-content: stretch;
   display: flex;
+  overflow: hidden;
   width: 100%;
+}
+
+/* Adjustments for large screens */
+@media only screen and (max-width: 1700px) {
+  .preview-title {
+    margin: 50px 0px 0px 15%;
+  }
+
+  .preview-container {
+    width: 70%;
+  }
+
+}
+
+/* Adjustments for small screens */
+@media
+only screen and (min-width: 2100) {
+  #header-container {
+    width: 40%;
+  }
+}
+
+@media
+only screen and (min-width: 600px){
+  #header-container {
+    width: 40%;
+  }
 }
