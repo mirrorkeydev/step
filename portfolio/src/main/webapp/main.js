@@ -1,6 +1,5 @@
 import Vue from 'https://cdn.jsdelivr.net/npm/vue@latest/dist/vue.esm.browser.min.js'
 import { Home } from './pages/home.js'
-import { MainTemplate } from './templates/mainttemplate.js'
 import { NavHeader } from './components/navheader.js'
 import { Footer } from './components/footer.js'
 
@@ -17,6 +16,13 @@ const router = new VueRouter({
     routes
 })
 
+const mainTemplate = `
+<div>
+  <NavHeader></NavHeader>
+  <router-view></router-view>
+  <Footer></Footer>
+</div>`;
+
 var app = new Vue({
     el: '#app',
     router,
@@ -24,7 +30,7 @@ var app = new Vue({
         'NavHeader': NavHeader,
         'Footer': Footer,
     },
-    template: MainTemplate,
+    template: mainTemplate,
     data: () => {
         return {
             msg: 'Hello'
