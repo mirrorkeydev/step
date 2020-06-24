@@ -8,6 +8,6 @@ const NavHeaderTemplate = `
         <a class="nav-link" href="#">Contact</a>
     </div>
     </div>
-    `;
+`;
 
 export { NavHeaderTemplate }
