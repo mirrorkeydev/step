@@ -1,9 +1,203 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+/**
+ ** Global
+ **/
+
+html, body {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  margin: 0px;
 }
 
-#greeting-container {
-  margin-top: 20px;
+a {
+  color: #0f803a;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+a:hover{
+  text-decoration: underline rgb(195, 195, 195);
+  text-decoration-thickness: 5px;
+  color: #1c1c1c;
+}
+
+/**
+ ** Header and Nav Bar
+ **/
+
+#nav-links{
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 50px 10px 40px 10px;
+  padding: 0px 20px 0px 20px;
+}
+
+.nav-link {
+  font-size: 20px;
+  line-height: 1.5;
+  padding: 10px;
+  text-decoration: none;
+}
+
+#header {
+  font-size: 40px;
+  flex: 1 1 100px;
+  flex-shrink: 3;
+  margin: 10px;
+  text-align: center;
+}
+
+#header-img {
+  border-radius: 50%;
+  margin: 0px auto;
+  max-height: 150px;
+  max-width: 150px;
+  margin: 20px;
+}
+
+#header-container {
+  align-items: center;
+  color: #1c1c1c;
+  display: flex;
+  flex-wrap: wrap;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 600;
+  justify-content: center;
+  margin: 0px auto;
+  padding: 40px 0px 0px 0px;
+  width: 60%;
+}
+
+/**
+ ** Body
+ **/
+
+#body-container {
+  margin: 0px auto;
+  margin-top: 30px;
+  width: 100%;
+}
+
+/**
+ ** All Preview boxes
+ **/
+
+/* The text above a preview box */
+.preview-title {
+  color: #313131;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 25px;
+  font-weight: 600;
+  margin: 50px 0px 0px 15%;
+}
+
+/* The container that constitutes a preview box */
+ .preview-container {
+  border-radius: 10px;
+  box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  -moz-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  -webkit-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  margin: 20px auto;
+  padding: 30px;
+  width: 70%;
+}
+
+/* Smaller titles within a preview box */
+.preview-subtitle {
+  color: #07692c;
+  font-family: 'Raleway', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0px 25px 15px 0px;
+  text-align: right;
+}
+
+/* A normal paragraph in a preview box */
+.preview-paragraph {
+  color: #1c1c1c;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+}
+
+/* The description to the left 
+   of an image in a preview box */
+.preview-img-description {
+  line-height: 20px;
+  margin: 0px 25px 0px 0px;
+  text-align: right;
+}
+
+/* The container for all text to the 
+   left of an image in a preview box */
+.preview-img-text {
+  min-width: 300px;
+}
+
+/* The image in a preview box */
+.preview-img {
+  margin: 0px;
+  max-width: 400px;
+}
+
+/* The top-level container for a
+   text-image combo block */
+.preview-img-w-text{
+  align-content: stretch;
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* A grid of icons (e.g. contact) */
+.preview-icons-grid {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: min-content;
+}
+
+.icon-link {
+  color: #3a3a3a;
+}
+
+/*
+ * Footer
+ */
+
+#footer-container{
+  margin: 60px 0px 0px 0px;
+  padding: 20px 0px 30px 0px;
+}
+
+.footer-text{
+  margin: 0 auto;
+  text-align: center;
+}
+
+/*
+ * Contact preview box
+ */
+
+.icon-link{
+  margin: 10px;
+}
+
+/*
+ * Responsivity (media queries)
+ */
+
+/* Adjustments for large screens (>1700px)*/
+@media only screen and (min-width: 1700px) {
+  .preview-title {
+    margin: 50px 0px 0px 30%;
+  }
+  
+  .preview-container {
+    width: 40%;
+  }
+  
+  #header-container {
+    width: 40%;
+  }
 }
