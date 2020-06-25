@@ -1,3 +1,9 @@
+/*
+ * A small box that "previews" the content of another page.
+ * Has a title, a small amount of content, and a link
+ * to where the rest of the content lives.
+ */
+
 const PreviewBoxTemplate = 
 `<div>
     <div class="preview-title">{{ title }}</div>

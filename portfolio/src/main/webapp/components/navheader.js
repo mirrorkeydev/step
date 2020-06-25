@@ -1,3 +1,8 @@
+/*
+ * The header at the top of every page.
+ * Has a profile picture, a name, and navigation links.
+ */
+
 const NavHeaderTemplate = 
 `<div id="header-container">
     <img id="header-img" src="./assets/me.jpg" alt="Profile picture">

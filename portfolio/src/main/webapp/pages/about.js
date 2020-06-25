@@ -1,3 +1,7 @@
+/*
+ * The about page of the website.
+ */
+
 const AboutTemplate = 
 `<div id="body-container">
 

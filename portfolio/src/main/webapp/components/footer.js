@@ -1,3 +1,8 @@
+/*
+ * The footer at the bottom of every page.
+ * Dates the page and gives font credit.
+ */
+
 const FooterTemplate = 
 `<div id="footer-container">
   <div class="footer-text">

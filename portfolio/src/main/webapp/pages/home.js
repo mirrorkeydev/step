@@ -1,3 +1,8 @@
+/*
+ * The home/landing page of the website.
+ * Contains preview boxes for other pages on the site.
+ */
+
 const HomeTemplate = 
 `<div id="body-container">
 
