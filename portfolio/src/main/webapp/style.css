@@ -80,7 +80,7 @@ a:hover{
 }
 
 /**
- ** All Preview boxes
+ ** Preview box
  **/
 
 /* The text above a preview box */
@@ -184,6 +184,20 @@ a:hover{
 }
 
 /*
+ * Textbox
+ */
+
+ .textbox {
+  border-radius: 10px;
+  box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  -moz-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  -webkit-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  margin: 20px auto;
+  padding: 30px;
+  width: 70%;
+ }
+
+/*
  * Responsivity (media queries)
  */
 
@@ -198,6 +212,10 @@ a:hover{
   }
   
   #header-container {
+    width: 40%;
+  }
+
+  .textbox {
     width: 40%;
   }
 }

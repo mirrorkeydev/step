@@ -5,13 +5,18 @@
 const AboutTemplate = 
 `<div id="body-container">
 
-  I am an about page!
+  <TextBox>
+    I am an about page!
+  </TextBox>
 
 </div>`;
+
+import { TextBox } from '../components/textbox.js';
 
 const About = {
     template: AboutTemplate,
     components: {
+        'TextBox': TextBox,
     },
 };
 
