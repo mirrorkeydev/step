@@ -20,9 +20,9 @@ const HomeTemplate =
 
   <PreviewBox title="Contact" url="/contact" moreText="more ways to reach me" >
     <div class="preview-icons-grid">
-      <a class="icon-link" href="#"><i class="fas fa-envelope fa-3x"></i></a>
-      <a class="icon-link" href="#"><i class="fab fa-linkedin-in fa-3x"></i></a>
-      <a class="icon-link" href="#"><i class="fab fa-github fa-3x"></i></a>
+      <a class="icon-link" href="mailto:mirrorkeydev@gmail.com"><i class="fas fa-envelope fa-3x"></i></a>
+      <a class="icon-link" href="https://www.linkedin.com/in/mgutzmann"><i class="fab fa-linkedin-in fa-3x"></i></a>
+      <a class="icon-link" href="https://github.com/mirrorkeydev"><i class="fab fa-github fa-3x"></i></a>
     </div>
   </PreviewBox>
 
