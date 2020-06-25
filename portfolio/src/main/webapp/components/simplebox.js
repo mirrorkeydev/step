@@ -1,5 +1,5 @@
-const SimpleBoxTemplate = `
-<div>
+const SimpleBoxTemplate = 
+`<div>
     <div class="preview-title">{{ title }}</div>
     <div class="preview-container">
         <div class="preview-paragraph">
@@ -10,12 +10,11 @@ const SimpleBoxTemplate = `
             <a :href="url"> {{ moreText }} →</a>
         </div>
     </div>
-</div>
-`;
+</div>`;
 
 const SimpleBox = {
     props: ['title', 'url', 'moreText'],
-    template: SimpleBoxTemplate
-}
+    template: SimpleBoxTemplate,
+};
 
-export { SimpleBox }
+export { SimpleBox };

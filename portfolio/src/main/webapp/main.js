@@ -3,19 +3,22 @@ import { Home } from './pages/home.js'
 import { NavHeader } from './components/navheader.js'
 import { Footer } from './components/footer.js'
 
-
 Vue.use(VueRouter);
 
+// Which components to render at which endpoint
 const routes = [{
         path: '/',
         component: Home
     },
 ]
 
+// Inject our defined routes into VueRouter.
 const router = new VueRouter({
     routes
 })
 
+// The main template that defines the entire page.
+// This is injected directly into the #app div.
 const mainTemplate = `
 <div>
   <NavHeader></NavHeader>
@@ -23,6 +26,8 @@ const mainTemplate = `
   <Footer></Footer>
 </div>`;
 
+// The parent Vue instance that wraps all children.
+// Renders the mainTemplate to the user in the #app div.
 var app = new Vue({
     el: '#app',
     router,
