@@ -8,8 +8,8 @@ const FooterTemplate =
   <div class="footer-text">
     Last updated 2020.
     <a href="https://fonts.google.com/">Fonts.</a>
+    <a href="https://fontawesome.com/">Icons.</a>
   </div>
-</div>
 </div>`;
 
 const Footer = {
