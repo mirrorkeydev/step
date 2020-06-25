@@ -1,15 +1,21 @@
 import Vue from 'https://cdn.jsdelivr.net/npm/vue@latest/dist/vue.esm.browser.min.js'
 import { Home } from './pages/home.js'
+import { About } from './pages/about.js'
 import { NavHeader } from './components/navheader.js'
 import { Footer } from './components/footer.js'
 
 Vue.use(VueRouter);
 
 // Which components to render at which endpoint
-const routes = [{
-        path: '/',
-        component: Home
-    },
+const routes = [
+  {
+    path: '/',
+    component: Home,
+  },
+  {
+    path: '/about',
+    component: About,
+  }
 ]
 
 // Inject our defined routes into VueRouter.
@@ -38,7 +44,7 @@ var app = new Vue({
     template: mainTemplate,
     data: () => {
         return {
-            msg: 'Hello'
+            msg: 'Hello',
         }
     },
 })
