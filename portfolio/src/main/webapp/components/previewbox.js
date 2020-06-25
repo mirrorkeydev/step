@@ -1,4 +1,4 @@
-const SimpleBoxTemplate = 
+const PreviewBoxTemplate = 
 `<div>
     <div class="preview-title">{{ title }}</div>
     <div class="preview-container">
@@ -12,9 +12,9 @@ const SimpleBoxTemplate =
     </div>
 </div>`;
 
-const SimpleBox = {
+const PreviewBox = {
     props: ['title', 'url', 'moreText'],
-    template: SimpleBoxTemplate,
+    template: PreviewBoxTemplate,
 };
 
-export { SimpleBox };
+export { PreviewBox };
