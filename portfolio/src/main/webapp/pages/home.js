@@ -28,7 +28,6 @@ const HomeTemplate =
 import { SimpleBox } from '../components/simplebox.js'
 import { CaptionedImage } from '../components/captionedimage.js'
 
-
 const Home = {
     template: HomeTemplate,
     components: {
