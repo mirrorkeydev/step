@@ -10,9 +10,10 @@ const AboutTemplate =
     <h2 class="centered">About</h2>
     <br/>
 
-    <p>
+    <p class="centered">
         Hello! My name is Melanie, and I'm a sophomore at Oregon State University.
     </p>
+    <br/>
 
     <IconTitle icon="far fa-bookmark fa-2x">Studying</IconTitle>
     <ul>
@@ -39,12 +40,21 @@ const AboutTemplate =
         Alligatoah, Milky Chance, Von Wegen Lisbeth, UPSAHL, Red Royal, Nodaway
       </li>
     </ul>
+
+    <IconTitle icon="far fa-caret-square-right fa-2x">Watching</IconTitle>
+    <ul>
+      <li>
+        The Good Place, The Office, Parks and Rec, Avatar the Last Airbender,
+        The Great British Baking Show, Community, Drew Gooden, Gourmet Makes,
+        Michael Reeves, Tom Scott
+      </li>
+    </ul>
     
     <IconTitle icon="far fa-save fa-2x">Collecting</IconTitle>
     <ul>
       <li>Plants (to tend to)</li>
       <li>Glass containers (to use as tupperware)</li>
-      <li>Cardboard boxes (for virtually no reason)</li>
+      <li>Cardboard boxes ( ??? )</li>
     </ul>
   </TextBox>
 
