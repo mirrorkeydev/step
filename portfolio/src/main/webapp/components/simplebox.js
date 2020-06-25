@@ -7,7 +7,7 @@ const SimpleBoxTemplate =
         </div>
         <br/>
         <div class="preview-read-more">
-            <a :href="url"> {{ moreText }} →</a>
+            <router-link :to="url"> {{ moreText }} →</router-link>
         </div>
     </div>
 </div>`;
