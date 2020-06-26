@@ -265,6 +265,18 @@ a:hover{
   width: 100%;
 }
 
+.imagebox-icons-grid {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  width: min-content;
+}
+
+.imagebox-icon {
+  color: #4a4a4a;
+  margin: 20px 10px 0px 10px;
+}
+
 .imagebox-collection {
   display: flex;
   flex-wrap: wrap;

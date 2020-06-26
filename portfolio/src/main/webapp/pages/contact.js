@@ -27,6 +27,10 @@ const ContactTemplate =
             <IconTitle icon="fab fa-spotify fa-2x">mirrorkey</IconTitle>
         </a>
 
+        <div class="icon-link">
+        <IconTitle icon="fab fa-discord fa-2x">mirrorkeydev#0120</IconTitle>
+        </div>
+
     </div>
 
   </TextBox>
