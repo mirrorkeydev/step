@@ -29,7 +29,7 @@ const ProjectsTemplate =
     subtitle="Personal project" img="./assets/visualizations2.png">
       Various visualizations created as an exercise in data processing. Includes
       infographics and interactive charts, exploring data such as my Netflix
-      binges and the patterns of my texts to a friend.
+      binges and the patterns of texts to a friend.
     </ImageBox>
 
     <ImageBox title="CatSpot (2019)" link="https://github.com/mirrorkeydev/CatSpot"
