@@ -9,7 +9,7 @@ const ProjectsTemplate =
   <h2 class="centered">Projects</h2>
 
   <div class="imagebox-collection">
-    <ImageBox title="Sprout (2020)" link="#"
+    <ImageBox title="Sprout (TBD)" link="#"
     subtitle="Personal project" img="./assets/sprout2.png">
       A dashboard that shows real-time statistics about my plants and their environment.
       Offers soil moisture charts for each plant connected to Sprout and
@@ -34,7 +34,7 @@ const ProjectsTemplate =
     <ImageBox title="Visualizations (2020)" link="https://github.com/mirrorkeydev/Visualizations"
     subtitle="Personal project" img="./assets/visualizations2.png">
       Various visualizations created as an exercise in data processing. Includes
-      infographics and interactive charts, exploring data such as my Netflix
+      interactive charts and original infographics, exploring data such as my Netflix
       binges and the patterns of texts to a friend.
       <div class="imagebox-icons-grid">
         <i class="fab fa-python fa-2x imagebox-icon"></i>
