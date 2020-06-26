@@ -34,8 +34,10 @@ const router = new VueRouter({
 });
 
 // The main template that defines the entire page.
+// This is injected directly into the #app div.
 const mainTemplate = `
 <div>
+  <NavHeader></NavHeader>
   <router-view></router-view>
   <Footer></Footer>
 </div>`;
