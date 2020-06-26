@@ -194,14 +194,14 @@ a:hover{
  */
 
 .textbox {
-border-radius: 10px;
-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
--moz-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
--webkit-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
-font-size: 18px;
-margin: 40px auto;
-padding: 50px;
-width: 70%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  -moz-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  -webkit-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  font-size: 18px;
+  margin: 40px auto;
+  padding: 50px;
+  width: 70%;
 }
 
 /*
