@@ -3,6 +3,7 @@ import { Home } from './pages/home.js'
 import { About } from './pages/about.js'
 import { NavHeader } from './components/navheader.js'
 import { Footer } from './components/footer.js'
+import { Contact } from './pages/contact.js'
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,10 @@ const routes = [
   {
     path: '/about',
     component: About,
+  },
+  {
+    path: '/contact',
+    component: Contact,
   }
 ]
 
