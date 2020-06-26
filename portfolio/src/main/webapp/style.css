@@ -21,6 +21,12 @@ a:hover{
   color: #1c1c1c;
 }
 
+.centered{
+  margin: auto;
+  width: 100%;
+  text-align: center;
+}
+
 /**
  ** Header and Nav Bar
  **/
@@ -41,7 +47,10 @@ a:hover{
 }
 
 #header {
+  color: #1c1c1c;
+  font-family: 'Roboto Mono', monospace;
   font-size: 40px;
+  font-weight: 600;
   flex: 1 1 100px;
   flex-shrink: 3;
   margin: 10px;
@@ -58,11 +67,8 @@ a:hover{
 
 #header-container {
   align-items: center;
-  color: #1c1c1c;
   display: flex;
   flex-wrap: wrap;
-  font-family: 'Roboto Mono', monospace;
-  font-weight: 600;
   justify-content: center;
   margin: 0px auto;
   padding: 40px 0px 0px 0px;
@@ -80,7 +86,7 @@ a:hover{
 }
 
 /**
- ** All Preview boxes
+ ** Preview box
  **/
 
 /* The text above a preview box */
@@ -165,12 +171,12 @@ a:hover{
  * Footer
  */
 
-#footer-container{
-  margin: 60px 0px 0px 0px;
+#footer-container {
+  margin: 30px 0px 0px 0px;
   padding: 20px 0px 30px 0px;
 }
 
-.footer-text{
+.footer-text {
   margin: 0 auto;
   text-align: center;
 }
@@ -179,8 +185,42 @@ a:hover{
  * Contact preview box
  */
 
-.icon-link{
+.icon-link {
   margin: 10px;
+}
+
+/*
+ * Textbox
+ */
+
+.textbox {
+  border-radius: 10px;
+  box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  -moz-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  -webkit-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  font-size: 18px;
+  margin: 40px auto;
+  padding: 50px;
+  width: 70%;
+}
+
+/*
+ * Icontitle
+ */
+
+.icontitle-container {
+  align-items: center;
+  display: flex;
+}
+
+.icontitle-icon-container {
+  margin: 10px;
+  width: 40px;
+}
+
+.icontitle-icon{
+  margin: auto;
+  width: min-content;
 }
 
 /*
@@ -198,6 +238,10 @@ a:hover{
   }
   
   #header-container {
+    width: 40%;
+  }
+
+  .textbox {
     width: 40%;
   }
 }

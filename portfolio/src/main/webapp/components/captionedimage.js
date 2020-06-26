@@ -1,3 +1,7 @@
+/*
+ * An image with a title and caption to the left of it.
+ */
+
 const CaptionedImageTemplate = 
 `<div class="preview-img-w-text">
     <div class="preview-img-text">
