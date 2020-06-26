@@ -5,14 +5,16 @@
 
 const ImageBoxTemplate = 
 `<div class="imagebox">
-    <div class="imagebox-title"> {{ title }} </div>
+    <a :href="link" class="imagebox-title"> {{ title }} </a>
     <div class="imagebox-subtitle"> {{ subtitle }} </div>
-    <img class="imagebox-img" :src="img" alt="Project image/logo">
+    <a :href="link">
+        <img class="imagebox-img" :src="img" alt="Project image/logo">
+    </a>
     <slot></slot>
 </div>`;
 
 const ImageBox = {
-    props: ['title', 'subtitle', 'img'],
+    props: ['title', 'link', 'subtitle', 'img'],
     template: ImageBoxTemplate,
 };
 

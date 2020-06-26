@@ -250,13 +250,13 @@ a:hover{
   font-family: 'Raleway', sans-serif;
   font-size: 20px;
   font-weight: 700;
-  margin: 0px 0px 10px 0px;
 }
 
 .imagebox-subtitle {
   color: #4a4a4a;
   font-size: 15px;
   font-style: italic;
+  margin: 5px 0px 0px 0px;
 }
 
 .imagebox-img {
@@ -269,7 +269,6 @@ a:hover{
   flex-wrap: wrap;
   justify-content: center;
   margin: 20px auto;
-  padding: 20px;
   width: 90%;
 }
 
