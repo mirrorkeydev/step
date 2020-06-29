@@ -4,6 +4,7 @@ import { About } from './pages/about.js'
 import { NavHeader } from './components/navheader.js'
 import { Footer } from './components/footer.js'
 import { Contact } from './pages/contact.js'
+import { Projects } from './pages/projects.js';
 
 Vue.use(VueRouter);
 
@@ -18,15 +19,19 @@ const routes = [
     component: About,
   },
   {
+    path: '/projects',
+    component: Projects,
+  },
+  {
     path: '/contact',
     component: Contact,
-  }
-]
+  },
+];
 
 // Inject our defined routes into VueRouter.
 const router = new VueRouter({
     routes
-})
+});
 
 // The main template that defines the entire page.
 // This is injected directly into the #app div.
@@ -47,9 +52,4 @@ var app = new Vue({
         'Footer': Footer,
     },
     template: mainTemplate,
-    data: () => {
-        return {
-            msg: 'Hello',
-        }
-    },
 })

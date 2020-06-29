@@ -5,7 +5,9 @@
 
 const NavHeaderTemplate = 
 `<div id="header-container">
-    <img id="header-img" src="./assets/me.jpg" alt="Profile picture">
+    <router-link to="/">
+        <img id="header-img" src="./assets/me.jpg" alt="Profile picture">
+    </router-link>
     <router-link id="header" to="/">Melanie Gutzmann</router-link>
     <div id="nav-links">
         <router-link class="nav-link" to="/about">About</router-link>
