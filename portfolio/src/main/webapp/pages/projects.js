@@ -67,7 +67,7 @@ const ProjectsTemplate =
         <i class="fab fa-google-play fa-2x imagebox-icon"></i>
         <i class="fab fa-adobe fa-2x imagebox-icon"></i>
       </div>
-      </ImageBox>
+    </ImageBox>
 
   </div>
 
