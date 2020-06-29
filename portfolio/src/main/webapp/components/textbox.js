@@ -5,6 +5,7 @@
 
 const TextBoxTemplate = 
 `<div>
+    <div class="textbox-title"> {{ title }} </div>
     <div class="textbox">
         <slot></slot>
     </div>
@@ -12,6 +13,7 @@ const TextBoxTemplate =
 
 const TextBox = {
     template: TextBoxTemplate,
+    props: ['title'],
 };
 
 export { TextBox };

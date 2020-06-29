@@ -199,9 +199,22 @@ a:hover{
   -moz-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
   -webkit-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
   font-size: 18px;
-  margin: 40px auto;
-  padding: 50px;
+  margin: 20px auto;
+  padding: 30px;
   width: 70%;
+}
+
+.textbox-container {
+  margin: 40px auto;
+  width: 70%;
+}
+
+.textbox-title {
+  color: #313131;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 25px;
+  font-weight: 600;
+  margin: 50px 0px 10px 15%;
 }
 
 /*
@@ -295,6 +308,11 @@ a:hover{
   .preview-title {
     margin: 50px 0px 0px 30%;
   }
+
+  .textbox-title {
+    margin: 50px 0px 0px 30%;
+  }
+  
   
   .preview-container {
     width: 40%;
@@ -312,7 +330,7 @@ a:hover{
 /* Adjustments for small screens (<600px)*/
 @media only screen and (max-width: 600px) {
 
-  .textbox {
+  .textbox-container {
     font-size: 15px;
   }
 
