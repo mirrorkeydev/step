@@ -18,9 +18,12 @@
 
     <!--Custom Styles-->
     <link href="./style.css" rel="stylesheet">
+    
+    <!--Global JS-->
+    <script type="text/javascript" src="script.js"></script>
 </head>
 
-<body>
+<body onload="getServerMessage()">
 
     <!--The root of all Vue components-->
     <div id="app"></div>
@@ -29,7 +32,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.2/vue-router.js"></script>
 
     <!--Entry point that binds Vue to the div above-->
-    <script type="module" src="main.js"></script>
+    <script type="module" src="vueapp.js"></script>
+
+
 
 </body>
 

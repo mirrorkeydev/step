@@ -5,7 +5,7 @@
 
 const FooterTemplate = 
 `<div id="footer-container">
-  <div class="footer-text">
+  <div id="footer-text">
     Last updated 2020.
     <a href="https://fonts.google.com/">Fonts.</a>
     <a href="https://fontawesome.com/">Icons.</a>
