@@ -5,11 +5,8 @@
 const AboutTemplate = 
 `<div id="body-container">
 
-  <TextBox>
-
-    <h2 class="centered">About</h2>
+  <TextBox title="About">
     <br/>
-
     <p class="centered">
         Hello! My name is Melanie, and I'm a sophomore at Oregon State University.
     </p>
