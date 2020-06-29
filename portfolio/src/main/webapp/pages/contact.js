@@ -53,7 +53,7 @@ const Contact = {
     },
     async mounted() {
         // Get the comments from the server and add them to component's local state
-        this.comments = await (await fetch('/data')).json();;
+        this.comments = await (await fetch('/data')).json();
     },
 };
 
