@@ -32,13 +32,19 @@ const ContactTemplate =
     </TextBox>
 
     <TextBox title="Comments">
-        <p v-for="comment in comments">{{ comment }} </p>
+        <form action="/data" method="post" id="contact-form">
+            <input type="text" id="name" name="name" placeholder="Name"><br>
+            <textarea type="text" id="comment" name="comment" placeholder="Comment"></textarea>
+            <input type="submit" value="Submit">
+        </form>
+        <Comment v-for="comment in comments" :author="comment.author" :date="comment.date"> {{ comment.body }} </Comment>
     </TextBox>
     
 </div>`;
 
 import { TextBox } from '../components/textbox.js';
 import { IconTitle } from '../components/icontitle.js';
+import { CommentBox } from '../components/commentbox.js';
 
 const Contact = {
     data() {
@@ -50,6 +56,7 @@ const Contact = {
     components: {
         'TextBox': TextBox,
         'IconTitle': IconTitle,
+        'Comment': CommentBox,
     },
     async mounted() {
         // Get the comments from the server and add them to component's local state
