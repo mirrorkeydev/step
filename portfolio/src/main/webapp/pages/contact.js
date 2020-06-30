@@ -40,7 +40,7 @@ const ContactTemplate =
         <div v-if="this.error.length > 0" id="error-bar"> {{ error }} </div>
         <form id="num-comments-form">
         <label id="num-comments-label">Number of results:</label>
-        <select v-model="numComments" id="num-comments" name="num-comments">
+        <select v-model="numCommentsToShow" id="num-comments" name="num-comments">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="25">25</option>
@@ -63,7 +63,7 @@ const Contact = {
     data() {
         return {
             comments: [],
-            numComments: 10,
+            numCommentsToShow: 10,
             commentDraft: {
                 author: "",
                 body: "",
@@ -135,12 +135,10 @@ const Contact = {
             comment.date = new Date().toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric', 
                                                                     hour: 'numeric', minute: 'numeric', second: 'numeric' });
             this.comments.unshift(Object.assign({}, comment));
-            this.numComments++;
         },
         // Removes the local comment that was most recently added, and displays an error message
         removeLastCommentAndShowMessage(msg){
             this.comments.splice(0, 1);
-            this.numComments--;
             this.error = msg;
             return;
         }
@@ -151,7 +149,7 @@ const Contact = {
     },
     watch: {
         // When the user picks a new number of comments, adjust the list to show that many
-        async numComments(newNum, oldNum) {
+        async numCommentsToShow(newNum, oldNum) {
             let castNewNum = Number(newNum);
             let castOldNum = Number(oldNum);
 
