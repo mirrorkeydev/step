@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that allows the client to create and read comments */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
@@ -48,7 +48,7 @@ public class DataServlet extends HttpServlet {
         }
     }
 
-    /** GETs a user-defined number of comments stored by the server */
+    /** GETs a user-defined number of comments stored by the server. */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -82,7 +82,7 @@ public class DataServlet extends HttpServlet {
         response.getWriter().println(json);
     }
 
-    /** POST a new comment to the server */
+    /** POST a new comment to the server. */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -109,7 +109,7 @@ public class DataServlet extends HttpServlet {
 
     /**
     * @return the request parameter, or the default value if the parameter
-    *         was not specified by the client
+    *         was not specified by the client.
     */
     private String getParameter(HttpServletRequest request, String name, String defaultValue) {
         String value = request.getParameter(name);
