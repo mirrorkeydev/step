@@ -32,11 +32,12 @@ const ContactTemplate =
     </TextBox>
 
     <TextBox title="Comments">
-        <form action="/data" method="post" id="contact-form">
-            <input type="text" id="name" name="name" placeholder="Name"><br>
-            <textarea type="text" id="comment" name="comment" placeholder="Comment"></textarea>
+        <form @submit.prevent="addNewComment" id="contact-form">
+            <input type="text" id="name" name="name" placeholder="Name" v-model="commentDraft.author"><br>
+            <textarea type="text" id="comment" name="comment" placeholder="Comment" v-model="commentDraft.body"></textarea>
             <input type="submit" value="Submit">
         </form>
+        <div v-if="this.error.length > 0" id="error-bar"> {{ error }} </div>
         <form id="num-comments-form">
         <label id="num-comments-label">Number of results:</label>
         <select v-model="numComments" id="num-comments" name="num-comments">
@@ -47,7 +48,7 @@ const ContactTemplate =
             <option value="-1">all</option>
         </select>
         </form>
-        <Comment v-for="comment in comments" :author="comment.author" :date="comment.date"> {{ comment.body }} </Comment>
+        <Comment v-for="comment in comments" :author="comment.author" :date="comment.date" :class="{ greyed: comment.greyed }"> {{ comment.body }} </Comment>
     </TextBox>
     
 </div>`;
@@ -61,6 +62,13 @@ const Contact = {
         return {
             comments: [],
             numComments: 10,
+            commentDraft: {
+                author: "",
+                body: "",
+                date: Date.now(),
+                greyed: false,
+            },
+            error: "",
         }
     },
     template: ContactTemplate,
@@ -68,6 +76,47 @@ const Contact = {
         'TextBox': TextBox,
         'IconTitle': IconTitle,
         'Comment': CommentBox,
+    },
+    methods: {
+        async addNewComment() {
+            // Blank slate
+            this.error = "";
+
+            // Validate content
+            if (!this.commentDraft.body || this.commentDraft.body.length < 0) {
+                this.error = "Please enter a comment.";
+                return;
+            }
+
+            // First, add the comment locally to instantly show the change, but a little greyed out
+            this.commentDraft.greyed = true;
+            this.commentDraft.author = !this.commentDraft.author || this.commentDraft.author === "" ? "Anonymous" : this.commentDraft.author;
+            this.commentDraft.date = new Date().toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric', 
+                                                                              hour: 'numeric', minute: 'numeric', second: 'numeric' });
+            this.comments.unshift(Object.assign({}, this.commentDraft));
+
+            // Then, try and add it to the server
+            const searchParams = Object.keys(this.commentDraft).map((key) => {
+                return encodeURIComponent(key) + '=' + encodeURIComponent(this.commentDraft[key]);
+                }).join('&');
+
+            await fetch('/data', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
+                body: searchParams
+            }).catch(function (err) {
+		        // If we encounter an error while adding it to the server,
+                // remove the comment locally and show an error
+                this.comments.splice(0, 1);
+                this.error = "The server encountered the following error while trying to add your comment: " + err;
+                return;
+            });
+
+            // If we don't get an error, we can assume everything went well and un-grey out the comment
+            this.comments[0].greyed = false;
+            this.commentDraft.author = "";
+            this.commentDraft.body = "";
+        }
     },
     async mounted() {
         // Get the comments from the server and add them to component's local state
@@ -78,7 +127,7 @@ const Contact = {
         async numComments(newNum, oldNum) {
             this.comments = await (await fetch('/data?num-comments=' + newNum)).json();
         }
-    }
+    },
 };
 
 export { Contact };

@@ -85,10 +85,13 @@ public class DataServlet extends HttpServlet {
     /** POST a new comment to the server */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         // Get the input from the form.
-        String body = getParameter(request, "comment", "");
-        String author = getParameter(request, "name", "Anonymous");
+        String body = getParameter(request, "body", "");
+        String author = getParameter(request, "author", "Anonymous");
         Date datetime = new Date();
+
+        System.out.println("Got body: " + body + " Author: " + author);
 
         // Check for validity
         if (!body.isEmpty()){
@@ -101,7 +104,7 @@ public class DataServlet extends HttpServlet {
 
             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
             datastore.put(commentEntity);
-        }   
+        }
 
         // Redirect back to the Contact page.
         response.sendRedirect("/#/contact");
