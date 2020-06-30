@@ -135,10 +135,12 @@ const Contact = {
             comment.date = new Date().toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric', 
                                                                     hour: 'numeric', minute: 'numeric', second: 'numeric' });
             this.comments.unshift(Object.assign({}, comment));
+            this.numComments++;
         },
         // Removes the local comment that was most recently added, and displays an error message
         removeLastCommentAndShowMessage(msg){
             this.comments.splice(0, 1);
+            this.numComments--;
             this.error = msg;
             return;
         }
@@ -148,9 +150,21 @@ const Contact = {
         this.comments = await (await fetch('/data')).json();
     },
     watch: {
-        // When the user picks a new number of comments, replace the comments with the new ones
+        // When the user picks a new number of comments, adjust the list to show that many
         async numComments(newNum, oldNum) {
-            this.comments = await (await fetch('/data?num-comments=' + newNum)).json();
+            let castNewNum = Number(newNum);
+            let castOldNum = Number(oldNum);
+
+            // If the user requests more comments than we currently have locally,
+            // then we need to ask the datastore for more
+            if (castNewNum > castOldNum) {
+                this.comments = await (await fetch('/data?num-comments=' + newNum)).json();
+            }
+            // Else, they're asking for an amount of comments that we already have locally,
+            // so just show them the first n comments
+            else if (castNewNum <= this.comments.length){
+                this.comments = this.comments.slice(0, castNewNum);
+            }
         }
     },
 };
