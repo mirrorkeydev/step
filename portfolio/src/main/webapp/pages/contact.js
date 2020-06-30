@@ -48,7 +48,9 @@ const ContactTemplate =
             <option value="-1">all</option>
         </select>
         </form>
-        <Comment v-for="comment in comments" :author="comment.author" :date="comment.date" :class="{ greyed: comment.greyed }"> {{ comment.body }} </Comment>
+        <Comment v-for="comment in comments" :author="comment.author" :date="comment.date" :class="{ greyed: comment.greyed }">
+            {{ comment.body }}
+        </Comment>
     </TextBox>
     
 </div>`;
@@ -103,11 +105,13 @@ const Contact = {
                 body: vueInstance.createSearchParamsFromObject(this.commentDraft)
             }).then(function (response) {
                 if (!response.ok) {
-                    vueInstance.removeLastCommentAndShowMessage("The server encountered an error while trying to add your comment.");
+                    vueInstance.removeLastCommentAndShowMessage(
+                        "The server encountered an error while trying to add your comment.");
                     return;
                 } 
             }).catch(function (err) {
-		        vueInstance.removeLastCommentAndShowMessage("The server encountered the following error while trying to add your comment: " + err);
+		        vueInstance.removeLastCommentAndShowMessage(
+                    "The server encountered the following error while trying to add your comment: " + err);
                 return;
             });
 
