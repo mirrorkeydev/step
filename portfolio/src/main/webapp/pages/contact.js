@@ -78,6 +78,8 @@ const Contact = {
         'Comment': CommentBox,
     },
     methods: {
+        // Adds a new comment to the list of comments by locally adding it, trying to add it to the server
+        // quietly in the background, and removing it from the list and showing an error if failure occurs.
         async addNewComment() {
             // Blank slate
             this.error = "";
@@ -88,34 +90,53 @@ const Contact = {
                 return;
             }
 
-            // First, add the comment locally to instantly show the change, but a little greyed out
-            this.commentDraft.greyed = true;
-            this.commentDraft.author = !this.commentDraft.author || this.commentDraft.author === "" ? "Anonymous" : this.commentDraft.author;
-            this.commentDraft.date = new Date().toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric', 
-                                                                              hour: 'numeric', minute: 'numeric', second: 'numeric' });
-            this.comments.unshift(Object.assign({}, this.commentDraft));
+            // First, add the comment locally to instantly show the change
+            this.createNewLocalGreyedComment(this.commentDraft);
 
             // Then, try and add it to the server
-            const searchParams = Object.keys(this.commentDraft).map((key) => {
-                return encodeURIComponent(key) + '=' + encodeURIComponent(this.commentDraft[key]);
-                }).join('&');
-
+            let vueInstance = this;
             await fetch('/data', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'},
-                body: searchParams
+                headers: { 
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                },
+                body: vueInstance.createSearchParamsFromObject(this.commentDraft)
+            }).then(function (response) {
+                if (!response.ok) {
+                    vueInstance.removeLastCommentAndShowMessage("The server encountered an error while trying to add your comment.");
+                    return;
+                } 
             }).catch(function (err) {
-		        // If we encounter an error while adding it to the server,
-                // remove the comment locally and show an error
-                this.comments.splice(0, 1);
-                this.error = "The server encountered the following error while trying to add your comment: " + err;
+		        vueInstance.removeLastCommentAndShowMessage("The server encountered the following error while trying to add your comment: " + err);
                 return;
             });
 
             // If we don't get an error, we can assume everything went well and un-grey out the comment
             this.comments[0].greyed = false;
+
+            // Clear the text fields
             this.commentDraft.author = "";
             this.commentDraft.body = "";
+        },
+        // Creates the search parameters necessary to build a POST request manually
+        createSearchParamsFromObject(obj){
+            return Object.keys(obj).map((key) => {
+                    return encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]);
+                    }).join('&');
+        },
+        // Locally adds a comment to the lists of comments in a greyed-out "waiting" state
+        createNewLocalGreyedComment(comment){
+            comment.greyed = true;
+            comment.author = !comment.author || comment.author === "" ? "Anonymous" : comment.author;
+            comment.date = new Date().toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric', 
+                                                                    hour: 'numeric', minute: 'numeric', second: 'numeric' });
+            this.comments.unshift(Object.assign({}, comment));
+        },
+        // Removes the local comment that was most recently added, and displays an error message
+        removeLastCommentAndShowMessage(msg){
+            this.comments.splice(0, 1);
+            this.error = msg;
+            return;
         }
     },
     async mounted() {
