@@ -6,7 +6,7 @@ const ContactTemplate =
 `<div id="body-container">
 
     <TextBox title="Get in Touch">
-        <div class="icontitle-group">
+        <div class="icontitle-group" id="contact-group">
             
             <a class="icon-link" href="mailto:mirrorkeydev@gmail.com">
                 <IconTitle icon="fas fa-envelope fa-2x">mirrorkeydev@gmail.com</IconTitle>
