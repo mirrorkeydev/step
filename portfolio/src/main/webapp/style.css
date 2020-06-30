@@ -31,9 +31,9 @@ input,
 textarea {
   background-color: #f7f7f7;
   border: 0px;
-  color: gray;
   border-radius: 5px;
-  margin: 5px 0px 5px 0px;
+  color: gray;
+  margin: 5px 0px;
   padding: 10px;
 }
 

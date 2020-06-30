@@ -91,12 +91,9 @@ public class DataServlet extends HttpServlet {
         String author = getParameter(request, "author", "Anonymous");
         Date datetime = new Date();
 
-        System.out.println("Got body: " + body + " Author: " + author);
-
-        // Check for validity
-        if (!body.isEmpty()){
-            
-            // Buld the new comment
+        // Check for validity.
+        if (!body.isEmpty()) {
+            // Buld the new comment.
             Entity commentEntity = new Entity("Comment");
             commentEntity.setProperty("author", author);
             commentEntity.setProperty("body", body);
