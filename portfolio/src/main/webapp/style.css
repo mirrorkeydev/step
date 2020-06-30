@@ -331,11 +331,6 @@ textarea {
  * Commentbox
  */
 
-#contact-form {
-  padding: 20px;
-  margin: 0px 0px 20px 0px;
-}
-
 .commentbox-container {
   border-top: 2px solid #d0d0d0;
   color: #333333;
@@ -356,6 +351,34 @@ textarea {
 .commentbox-body {
   font-size: 17px;
   margin: 10px 0px 0px 0px;
+}
+
+/*
+ * Contact page (contact.js)
+ */
+
+#contact-form {
+  padding: 20px 20px 0px 20px;
+}
+
+#num-comments-form {
+  padding: 0px 20px 20px 20px;
+  text-align: right;
+}
+
+#num-comments-label {
+  color: #3c3c3c;
+  font-size: 15px;
+  margin: 0px 5px 0px 0px;
+}
+
+#num-comments {
+  background-color: #f7f7f7;
+  border: none;
+  color: #333333;
+  font-size: 13px;
+  outline: none;
+  padding: 5px;
 }
 
 /*

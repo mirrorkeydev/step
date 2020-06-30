@@ -32,20 +32,20 @@ const ContactTemplate =
     </TextBox>
 
     <TextBox title="Comments">
-        <form action="">
-            <label>Number of results:</label>
-            <select v-model="numComments" id="num-comments" name="num-comments">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="-1">all</option>
-            </select>
-        </form>
         <form action="/data" method="post" id="contact-form">
             <input type="text" id="name" name="name" placeholder="Name"><br>
             <textarea type="text" id="comment" name="comment" placeholder="Comment"></textarea>
             <input type="submit" value="Submit">
+        </form>
+        <form id="num-comments-form">
+        <label id="num-comments-label">Number of results:</label>
+        <select v-model="numComments" id="num-comments" name="num-comments">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="-1">all</option>
+        </select>
         </form>
         <Comment v-for="comment in comments" :author="comment.author" :date="comment.date"> {{ comment.body }} </Comment>
     </TextBox>
@@ -76,7 +76,6 @@ const Contact = {
     watch: {
         // When the user picks a new number of comments, replace the comments with the new ones
         async numComments(newNum, oldNum) {
-            console.log("I changed!")
             this.comments = await (await fetch('/data?num-comments=' + newNum)).json();
         }
     }
