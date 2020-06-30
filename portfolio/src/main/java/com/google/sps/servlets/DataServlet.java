@@ -14,9 +14,16 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,18 +34,76 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+    public class Comment {
+        String body;
+        String author;
+        Date date;
+
+        public Comment(String body, String author, Date date) {
+            this.body = body;
+            this.author = author;
+            this.date = date;
+        }
+    }
+
+    /** GETs all comments stored by the server */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ArrayList<String> messages = new ArrayList<String>();
-        messages.add("This is the first comment!");
-        messages.add("This is the second comment!");
-        messages.add("This is the third comment!");
+
+        Query query = new Query("Comment").addSort("datetime", SortDirection.DESCENDING);
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        PreparedQuery results = datastore.prepare(query);
+
+        ArrayList<Comment> comments = new ArrayList<Comment>();
+        for (Entity entity : results.asIterable()) {
+            String author = (String) entity.getProperty("author");
+            String body = (String) entity.getProperty("body");
+            Date datetime = (Date) entity.getProperty("datetime");
+
+            Comment comment = new Comment(body, author, datetime);
+            comments.add(comment);
+        }
 
         Gson gson = new Gson();
-        String json = gson.toJson(messages);
+        String json = gson.toJson(comments);
 
         response.setContentType("text/json;");
         response.getWriter().println(json);
+    }
 
+    /** POST a new comment to the server */
+    @Override
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // Get the input from the form.
+        String body = getParameter(request, "comment", "");
+        String author = getParameter(request, "name", "Anonymous");
+        Date datetime = new Date();
+
+        // Check for validity.
+        if (!body.isEmpty()) {
+            // Buld the new comment.
+            Entity commentEntity = new Entity("Comment");
+            commentEntity.setProperty("author", author);
+            commentEntity.setProperty("body", body);
+            commentEntity.setProperty("datetime", datetime);
+
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            datastore.put(commentEntity);
+        }   
+
+        // Redirect back to the Contact page.
+        response.sendRedirect("/#/contact");
+    }
+
+    /**
+    * @return the request parameter, or the default value if the parameter
+    *         was not specified by the client
+    */
+    private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+        String value = request.getParameter(name);
+        if (value == null || value.isEmpty()) {
+            return defaultValue;
+        }
+        return value;
     }
 }

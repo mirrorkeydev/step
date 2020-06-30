@@ -16,15 +16,43 @@ a {
 }
 
 a:hover{
+  color: #1c1c1c;
   text-decoration: underline rgb(195, 195, 195);
   text-decoration-thickness: 5px;
-  color: #1c1c1c;
 }
 
-.centered{
+.centered {
   margin: auto;
-  width: 100%;
   text-align: center;
+  width: 100%;
+}
+
+input,
+textarea {
+  background-color: #f7f7f7;
+  border: 0px;
+  border-radius: 5px;
+  color: gray;
+  margin: 5px 0px;
+  padding: 10px;
+}
+
+input:focus,
+textarea:focus {
+  color: #333333;
+  outline: none;
+}
+
+input[type=submit] {
+  color: #333333;
+}
+
+input[type=submit]:hover {
+  cursor: pointer;
+}
+
+textarea {
+  width: 100%;
 }
 
 /**
@@ -297,6 +325,37 @@ a:hover{
   justify-content: center;
   margin: 20px auto;
   width: 90%;
+}
+
+/*
+ * Commentbox
+ */
+
+#contact-form {
+  padding: 20px;
+  margin: 0px 0px 20px 0px;
+}
+
+.commentbox-container {
+  border-top: 2px solid #d0d0d0;
+  color: #333333;
+  padding: 20px;
+}
+
+.commentbox-author {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.commentbox-date { 
+  font-size: 14px;
+  margin: 2px 0px 0px 0px;
+  font-style: italic;
+}
+
+.commentbox-body {
+  font-size: 17px;
+  margin: 10px 0px 0px 0px;
 }
 
 /*
