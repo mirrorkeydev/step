@@ -17,6 +17,15 @@
 'use strict';
 
 module.exports = {
+  
+  parserOptions: {
+      ecmaVersion: 2017
+  },
+
+  env: {
+      es6: true
+  },
+  
   rules: {
     // The rules below are listed in the order they appear on the eslint
     // rules page. All rules are listed to make it easier to keep in sync
