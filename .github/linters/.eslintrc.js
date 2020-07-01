@@ -244,7 +244,7 @@ module.exports = {
     // 'lines-around-comment': 'off',
     // 'max-depth': 'off',
     'max-len': ['error', {
-      code: 80,
+      code: 100,
       tabWidth: 2,
       ignoreUrls: true,
       ignorePattern: 'goog\.(module|require)',
