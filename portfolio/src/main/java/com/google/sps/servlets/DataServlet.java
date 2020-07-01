@@ -53,11 +53,14 @@ public class DataServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         // Get the input from the form.
-        int numberOfCommentsToShow = 10;
+        int numberOfCommentsToShow;
         if (request.getParameter("num-comments") != null && !request.getParameter("num-comments").isEmpty()){
             try {
                 numberOfCommentsToShow = Integer.parseInt(request.getParameter("num-comments"));
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                // If parsing fails (non-numeric input), we silently fall back on showing 10 comments
+                numberOfCommentsToShow = 10;
+            }
         }
 
         Query query = new Query("Comment").addSort("datetime", SortDirection.DESCENDING);
