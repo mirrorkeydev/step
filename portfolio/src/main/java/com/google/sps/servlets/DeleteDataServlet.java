@@ -45,5 +45,7 @@ public class DeleteDataServlet extends HttpServlet {
         for (Entity commentEntity : results.asIterable()) {
             datastore.delete(commentEntity.getKey());
         }
+
+        response.setStatus(200);
     }
 }
