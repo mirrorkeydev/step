@@ -44,12 +44,12 @@ textarea {
 
 input:focus,
 textarea:focus {
-  color: #333333;
+  color: #333;
   outline: none;
 }
 
 input[type=submit] {
-  color: #333333;
+  color: #333;
 }
 
 input[type=submit]:hover {
@@ -480,7 +480,7 @@ input[type=submit]:hover {
  * Responsivity (media queries)
  */
 
-/* Adjustments for large screens (>1700px)*/
+/* Adjustments for large screens (>1700px) */
 @media only screen and (min-width: 1700px) {
   .preview-title {
     margin: 50px 0 0 30%;
@@ -489,11 +489,11 @@ input[type=submit]:hover {
   .textbox-title {
     margin: 50px 0 0 30%;
   }
-  
+
   .preview-container {
     width: 40%;
   }
-  
+
   #header-container {
     width: 40%;
   }

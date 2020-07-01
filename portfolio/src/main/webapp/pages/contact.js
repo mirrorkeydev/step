@@ -81,25 +81,25 @@ import {TextBox} from '../components/textbox.js';
 
 const Contact = {
   data() {
-      return {
-          comments: [],
-          numCommentsToShow: 10,
-          commentDraft: {
-              author: "",
-              body: "",
-              date: Date.now(),
-              greyed: false,
-          },
-          error: "",
-          modalActive: false,
-      }
+    return {
+      comments: [],
+      numCommentsToShow: 10,
+      commentDraft: {
+        author: '',
+        body: '',
+        date: Date.now(),
+        greyed: false,
+      },
+      error: '',
+      modalActive: false,
+    };
   },
   template: ContactTemplate,
   components: {
-      'Comment': CommentBox,
-      'IconTitle': IconTitle,
-      'Modal': Modal,
-      'TextBox': TextBox,
+    'Comment': CommentBox,
+    'IconTitle': IconTitle,
+    'Modal': Modal,
+    'TextBox': TextBox,
   },
   methods: {
     // Adds a new comment to the list of comments by locally adding it, trying to add it to
@@ -122,16 +122,16 @@ const Contact = {
       try {
         const response = await fetch('/data', {
           method: 'POST',
-          headers: { 
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
           },
           body: vueInstance.createSearchParamsFromObject(this.commentDraft),
         });
         if (!response.ok) {
           throw new Error(response.status);
-        } 
+        }
       } catch(err) {
-      vueInstance.removeLastComment();
+        vueInstance.removeLastComment();
         vueInstance.error = 'Error trying to add comment: ' + err;
         return;
       }
@@ -140,24 +140,24 @@ const Contact = {
       this.comments[0].greyed = false;
 
       // Clear the text fields
-      this.commentDraft.author = "";
-      this.commentDraft.body = "";
+      this.commentDraft.author = '';
+      this.commentDraft.body = '';
     },
     // Creates the search parameters necessary to build a POST request manually
-    createSearchParamsFromObject(obj){
+    createSearchParamsFromObject(obj) {
       return Object.keys(obj).map((key) => {
         return encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]);
-        }).join('&');
+      }).join('&');
     },
     // Locally adds a comment to the lists of comments in a greyed-out "waiting" state.
     createNewLocalGreyedComment(comment) {
       comment.greyed = true;
       comment.author = !comment.author || comment.author === '' ? 'Anonymous' : comment.author;
-      comment.date = new Date().toLocaleDateString('en-US', 
-        { 
-          year: 'numeric', month: 'short', day: 'numeric', 
-          hour: 'numeric', minute: 'numeric', second: 'numeric'
-        });
+      comment.date = new Date().toLocaleDateString('en-US',
+          {
+            year: 'numeric', month: 'short', day: 'numeric', 
+            hour: 'numeric', minute: 'numeric', second: 'numeric',
+          });
       this.comments.unshift(Object.assign({}, comment));
     },
     // Removes the local comment that was most recently added.
@@ -170,7 +170,6 @@ const Contact = {
     },
     // Deletes all comments from the server and then refreshes the visible comments.
     async deleteAllComments() {
-
       // Close the modal if it was open
       this.modalActive = false;
 
@@ -178,15 +177,15 @@ const Contact = {
       try {
         const response = await fetch('/delete-data', { method: 'POST'});
         if (!response.ok) {
-          throw new Error('Unable to delete comments. Please try again.')
-        } 
+          throw new Error('Unable to delete comments. Please try again.');
+        }
       } catch(err) {
-        console.warn(err)
+        console.warn(err);
       }
 
       // Refresh the comments that the user sees
       this.comments = await (await fetch('/data')).json();
-    }
+    },
   },
   async mounted() {
     // Get the comments from the server and add them to component's local state
@@ -195,17 +194,16 @@ const Contact = {
   watch: {
     // When the user picks a new number of comments, adjust the list to show that many
     async numCommentsToShow(newNum, oldNum) {
-      let castNewNum = Number(newNum);
-      let castOldNum = Number(oldNum);
+      const castNewNum = Number(newNum);
+      const castOldNum = Number(oldNum);
 
       // If the user requests more comments than we currently have locally,
       // then we need to ask the datastore for more
       if (castNewNum > castOldNum) {
         this.comments = await (await fetch('/data?num-comments=' + newNum)).json();
-      }
-      // Else, they're asking for an amount of comments that we already have locally,
-      // so just show them the first n comments
-      else if (castNewNum <= this.comments.length) {
+      } else if (castNewNum <= this.comments.length) {
+        // Else, they're asking for an amount of comments that we already have locally,
+        // so just show them the first n comments
         this.comments = this.comments.slice(0, castNewNum);
       }
     },
