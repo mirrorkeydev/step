@@ -53,7 +53,7 @@ public class DataServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         // Get the input from the form.
-        int numberOfCommentsToShow;
+        int numberOfCommentsToShow = 0;
         if (request.getParameter("num-comments") != null && !request.getParameter("num-comments").isEmpty()){
             try {
                 numberOfCommentsToShow = Integer.parseInt(request.getParameter("num-comments"));

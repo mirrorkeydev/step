@@ -1,12 +1,10 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Linter
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
-  push:
-    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -35,3 +33,6 @@ jobs:
       uses: docker://github/super-linter:v3
       env:
         VALIDATE_ALL_CODEBASE: false
+        VALIDATE_JAVASCRIPT_ES: true
+        JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.js	
+        VALIDATE_CSS: true
