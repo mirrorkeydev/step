@@ -48,16 +48,19 @@ public class DataServlet extends HttpServlet {
         }
     }
 
-    /** GETs a user-defined number of comments stored by the server */
+    /** GETs a user-defined number of comments stored by the server. */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         // Get the input from the form.
-        int numberOfCommentsToShow = 10;
+        int numberOfCommentsToShow;
         if (request.getParameter("num-comments") != null && !request.getParameter("num-comments").isEmpty()){
             try {
                 numberOfCommentsToShow = Integer.parseInt(request.getParameter("num-comments"));
-            } catch (Exception e) {}
+            } catch (Exception e) {
+                // If parsing fails (non-numeric input), we silently fall back on showing 10 comments
+                numberOfCommentsToShow = 10;
+            }
         }
 
         Query query = new Query("Comment").addSort("datetime", SortDirection.DESCENDING);
@@ -82,7 +85,7 @@ public class DataServlet extends HttpServlet {
         response.getWriter().println(json);
     }
 
-    /** POST a new comment to the server */
+    /** POST a new comment to the server. */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -109,7 +112,7 @@ public class DataServlet extends HttpServlet {
 
     /**
     * @return the request parameter, or the default value if the parameter
-    *         was not specified by the client
+    *         was not specified by the client.
     */
     private String getParameter(HttpServletRequest request, String name, String defaultValue) {
         String value = request.getParameter(name);
