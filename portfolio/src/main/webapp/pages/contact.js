@@ -138,24 +138,24 @@ const Contact = {
                     return encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]);
                     }).join('&');
         },
-        // Locally adds a comment to the lists of comments in a greyed-out "waiting" state
-        createNewLocalGreyedComment(comment){
+        // Locally adds a comment to the lists of comments in a greyed-out "waiting" state.
+        createNewLocalGreyedComment(comment) {
             comment.greyed = true;
             comment.author = !comment.author || comment.author === "" ? "Anonymous" : comment.author;
             comment.date = new Date().toLocaleDateString("en-US", { year: 'numeric', month: 'short', day: 'numeric', 
                                                                     hour: 'numeric', minute: 'numeric', second: 'numeric' });
             this.comments.unshift(Object.assign({}, comment));
         },
-        // Removes the local comment that was most recently added
-        removeLastComment(){
+        // Removes the local comment that was most recently added.
+        removeLastComment() {
             this.comments.splice(0, 1);
         },
-        // Opens the "are you sure?" modal
+        // Opens the "are you sure?" modal.
         showConfirmationModal() {
             this.modalActive = true;
         },
-        // Deletes all comments from the server and then refreshes the visible comments
-        async deleteAllComments(){
+        // Deletes all comments from the server and then refreshes the visible comments.
+        async deleteAllComments() {
 
             // Close the modal if it was open
             this.modalActive = false;
