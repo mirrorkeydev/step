@@ -130,7 +130,7 @@ const Contact = {
         if (!response.ok) {
           throw new Error(response.status);
         }
-      } catch(err) {
+      } catch (err) {
         vueInstance.removeLastComment();
         vueInstance.error = 'Error trying to add comment: ' + err;
         return;
@@ -155,7 +155,7 @@ const Contact = {
       comment.author = !comment.author || comment.author === '' ? 'Anonymous' : comment.author;
       comment.date = new Date().toLocaleDateString('en-US',
           {
-            year: 'numeric', month: 'short', day: 'numeric', 
+            year: 'numeric', month: 'short', day: 'numeric',
             hour: 'numeric', minute: 'numeric', second: 'numeric',
           });
       this.comments.unshift(Object.assign({}, comment));
@@ -175,11 +175,11 @@ const Contact = {
 
       // Delete all comments from the server
       try {
-        const response = await fetch('/delete-data', { method: 'POST'});
+        const response = await fetch('/delete-data', {method: 'POST'});
         if (!response.ok) {
           throw new Error('Unable to delete comments. Please try again.');
         }
-      } catch(err) {
+      } catch (err) {
         console.warn(err);
       }
 
