@@ -33,14 +33,14 @@ const ContactTemplate =
 
     <TextBox title="Comments">
         <form @submit.prevent="addNewComment" id="contact-form">
-            <input type="text" id="name" name="name" placeholder="Name" v-model="commentDraft.author"><br>
+            <input type="text" id="name" name="name" placeholder="Name" autocomplete="off" v-model="commentDraft.author"><br>
             <textarea type="text" id="comment" name="comment" placeholder="Comment" v-model="commentDraft.body"></textarea>
             <input type="submit" value="Submit">
         </form>
         <div v-if="this.error.length > 0" id="error-bar"> {{ error }} </div>
         <form id="num-comments-form">
-        <label id="num-comments-label">Number of results:</label>
-        <select v-model="numCommentsToShow" id="num-comments" name="num-comments">
+        <label v-if="this.comments.length > 0" id="num-comments-label">Number of results:</label>
+        <select v-if="this.comments.length > 0" v-model="numCommentsToShow" id="num-comments" name="num-comments">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="25">25</option>
@@ -51,6 +51,7 @@ const ContactTemplate =
         <Comment v-for="comment in comments" :author="comment.author" :date="comment.date" :class="{ greyed: comment.greyed }">
             {{ comment.body }}
         </Comment>
+        <button v-if="this.comments.length > 0" v-on:click="deleteAllComments(true)" id="delete-comments-button">Delete all comments</button>
     </TextBox>
     
 </div>`;
@@ -141,6 +142,28 @@ const Contact = {
             this.comments.splice(0, 1);
             this.error = msg;
             return;
+        },
+        // Deletes all comments from the server and then refreshes the visible comments
+        async deleteAllComments(showWarning){
+            // Make sure the user knows what they're getting themselves into
+            if (showWarning) {
+                alert("This action cannot be undone. Are you sure?");
+            }
+
+            // Delete all comments from the server
+            let vueInstance = this;
+            await fetch('/delete-data', { 
+                method: 'POST',
+            }).then(async function (response) {
+                if (!response.ok) {
+                    throw new Error("Unable to delete comments. Please try again.")
+                } 
+            }).catch(function (err) {
+		        console.warn(err)
+            });
+
+            // Refresh the comments that the user sees 
+            vueInstance.comments = await (await fetch('/data')).json();
         }
     },
     async mounted() {
