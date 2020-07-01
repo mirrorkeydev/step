@@ -1,10 +1,10 @@
 /*
  * A pop-up modal that gives the user two options.
  * The parent can specify each button's action using @o1 and @o2, as below:
- * <Modal option1="No" option2="Yes" @o1="console.log('nice')" @o2="handleYesClickFunc">
+ * <Modal @o1="console.log('nice')" @o2="handleYesClickFunc">
  */
 
-const ModalTemplate = 
+const ModalTemplate =
 `<div>
     <div class="modal-mask">
     </div>
@@ -19,8 +19,8 @@ const ModalTemplate =
 </div>`;
 
 const Modal = {
-    props: ['title', 'option1', 'option2'],
-    template: ModalTemplate,
+  props: ['title', 'option1', 'option2'],
+  template: ModalTemplate,
 };
 
-export { Modal };
+export {Modal};

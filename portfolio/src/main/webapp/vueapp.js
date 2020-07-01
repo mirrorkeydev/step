@@ -1,10 +1,10 @@
 import Vue from 'https://cdn.jsdelivr.net/npm/vue@latest/dist/vue.esm.browser.min.js';
-import { About } from './pages/about.js';
-import { Contact } from './pages/contact.js';
-import { Footer } from './components/footer.js';
-import { Home } from './pages/home.js';
-import { NavHeader } from './components/navheader.js';
-import { Projects } from './pages/projects.js';
+import {About} from './pages/about.js';
+import {Contact} from './pages/contact.js';
+import {Footer} from './components/footer.js';
+import {Home} from './pages/home.js';
+import {NavHeader} from './components/navheader.js';
+import {Projects} from './pages/projects.js';
 
 Vue.use(VueRouter);
 
@@ -30,7 +30,7 @@ const routes = [
 
 // Inject our defined routes into VueRouter.
 const router = new VueRouter({
-    routes
+  routes,
 });
 
 // The main template that defines the entire page.
@@ -44,12 +44,15 @@ const mainTemplate = `
 
 // The parent Vue instance that wraps all children.
 // Renders the mainTemplate to the user in the #app div.
-var app = new Vue({
-    el: '#app',
-    router,
-    components: {
-        'NavHeader': NavHeader,
-        'Footer': Footer,
-    },
-    template: mainTemplate,
-})
+
+/* eslint-disable no-unused-vars */
+const app = new Vue({
+  el: '#app',
+  router,
+  components: {
+    'NavHeader': NavHeader,
+    'Footer': Footer,
+  },
+  template: mainTemplate,
+});
+/* eslint-enable no-unused-vars */
