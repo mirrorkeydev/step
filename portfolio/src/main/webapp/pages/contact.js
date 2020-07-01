@@ -62,10 +62,10 @@ const ContactTemplate =
     </Modal>
 </div>`;
 
-import { TextBox } from '../components/textbox.js';
-import { IconTitle } from '../components/icontitle.js';
 import { CommentBox } from '../components/commentbox.js';
+import { IconTitle } from '../components/icontitle.js';
 import { Modal } from '../components/modal.js';
+import { TextBox } from '../components/textbox.js';
 
 const Contact = {
     data() {
@@ -84,10 +84,10 @@ const Contact = {
     },
     template: ContactTemplate,
     components: {
-        'TextBox': TextBox,
-        'IconTitle': IconTitle,
         'Comment': CommentBox,
+        'IconTitle': IconTitle,
         'Modal': Modal,
+        'TextBox': TextBox,
     },
     methods: {
         // Adds a new comment to the list of comments by locally adding it, trying to add it to the server
@@ -168,7 +168,7 @@ const Contact = {
                 } 
             }
             catch(err) {
-		        console.warn(err)
+                console.warn(err)
             }
 
             // Refresh the comments that the user sees

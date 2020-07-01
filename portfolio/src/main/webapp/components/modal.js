@@ -1,5 +1,7 @@
 /*
- * A pop-up modal that gives the user two options
+ * A pop-up modal that gives the user two options.
+ * The parent can specify each button's action using @o1 and @o2, as below:
+ * <Modal option1="No" option2="Yes" @o1="console.log('nice')" @o2="handleYesClickFunc">
  */
 
 const ModalTemplate = 

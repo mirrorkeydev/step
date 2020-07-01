@@ -38,7 +38,7 @@ const router = new VueRouter({
 const mainTemplate = `
 <div>
     <NavHeader></NavHeader>
-    <router-view v-on="$listeners"></router-view>
+    <router-view></router-view>
     <Footer></Footer>
 </div>`;
 
