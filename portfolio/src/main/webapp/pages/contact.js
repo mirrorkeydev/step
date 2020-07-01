@@ -5,61 +5,61 @@
 const ContactTemplate = 
 `<div id="body-container">
 
-    <div :class="{ blurred: modalActive }">
-        <TextBox title="Get in Touch">
-            <div class="icontitle-group" id="contact-group">
-                
-                <a class="icon-link" href="mailto:mirrorkeydev@gmail.com">
-                    <IconTitle icon="fas fa-envelope fa-2x">mirrorkeydev@gmail.com</IconTitle>
-                </a>
+    <TextBox title="Get in Touch">
+        <div class="icontitle-group" id="contact-group">
+            
+            <a class="icon-link" href="mailto:mirrorkeydev@gmail.com">
+                <IconTitle icon="fas fa-envelope fa-2x">mirrorkeydev@gmail.com</IconTitle>
+            </a>
 
-                <a class="icon-link" href="https://www.linkedin.com/in/mgutzmann">
-                    <IconTitle icon="fab fa-linkedin-in fa-2x">linkedin.com/in/mgutzmann</IconTitle>
-                </a>
+            <a class="icon-link" href="https://www.linkedin.com/in/mgutzmann">
+                <IconTitle icon="fab fa-linkedin-in fa-2x">linkedin.com/in/mgutzmann</IconTitle>
+            </a>
 
-                <a class="icon-link" href="https://github.com/mirrorkeydev">
-                    <IconTitle icon="fab fa-github fa-2x">github.com/mirrorkeydev</IconTitle>
-                </a>
+            <a class="icon-link" href="https://github.com/mirrorkeydev">
+                <IconTitle icon="fab fa-github fa-2x">github.com/mirrorkeydev</IconTitle>
+            </a>
 
-                <a class="icon-link" href="https://open.spotify.com/user/mirrorkey?si=HbKiiZDRRdCicNRs_qoKtg">
-                    <IconTitle icon="fab fa-spotify fa-2x">mirrorkey</IconTitle>
-                </a>
+            <a class="icon-link" href="https://open.spotify.com/user/mirrorkey?si=HbKiiZDRRdCicNRs_qoKtg">
+                <IconTitle icon="fab fa-spotify fa-2x">mirrorkey</IconTitle>
+            </a>
 
-                <div class="icon-link">
-                <IconTitle icon="fab fa-discord fa-2x">mirrorkeydev#0120</IconTitle>
-                </div>
-
+            <div class="icon-link">
+            <IconTitle icon="fab fa-discord fa-2x">mirrorkeydev#0120</IconTitle>
             </div>
-        </TextBox>
 
-        <TextBox :title="this.comments.length + ' Comment' + (this.comments.length != 1 ? 's' : '')">
-            <form @submit.prevent="addNewComment" id="contact-form">
-                <input type="text" id="name" name="name" placeholder="Name" autocomplete="off" v-model="commentDraft.author"><br>
-                <textarea type="text" id="comment" name="comment" placeholder="Comment" v-model="commentDraft.body"></textarea>
-                <input type="submit" value="Submit">
-            </form>
-            <div v-if="this.error.length > 0" id="error-bar"> {{ error }} </div>
-            <form id="num-comments-form">
-            <label v-if="this.comments.length > 0" id="num-comments-label">Number of results:</label>
-            <select v-if="this.comments.length > 0" v-model="numCommentsToShow" id="num-comments" name="num-comments">
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="25">25</option>
-                <option value="50">50</option>
-                <option value="-1">all</option>
-            </select>
-            </form>
-            <Comment v-for="comment in comments" :author="comment.author" :date="comment.date" :class="{ greyed: comment.greyed }">
-                {{ comment.body }}
-            </Comment>
-            <button v-if="this.comments.length > 0" v-on:click="deleteAllComments(true)" id="delete-comments-button">Delete all comments</button>
-        </TextBox>
-    </div>
+        </div>
+    </TextBox>
 
-    <Modal v-if="modalActive" title="Warning" option1="Nevermind" option2="Yup!">
+    <TextBox :title="this.comments.length + ' Comment' + (this.comments.length != 1 ? 's' : '')">
+        <form @submit.prevent="addNewComment" id="contact-form">
+            <input type="text" id="name" name="name" placeholder="Name" autocomplete="off" v-model="commentDraft.author"><br>
+            <textarea type="text" id="comment" name="comment" placeholder="Comment" v-model="commentDraft.body"></textarea>
+            <input type="submit" value="Submit">
+        </form>
+        <div v-if="this.error.length > 0" id="error-bar"> {{ error }} </div>
+        <form id="num-comments-form">
+        <label v-if="this.comments.length > 0" id="num-comments-label">Number of results:</label>
+        <select v-if="this.comments.length > 0" v-model="numCommentsToShow" id="num-comments" name="num-comments">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+            <option value="-1">all</option>
+        </select>
+        </form>
+        <Comment v-for="comment in comments" :author="comment.author" :date="comment.date" :class="{ greyed: comment.greyed }">
+            {{ comment.body }}
+        </Comment>
+        <button v-if="this.comments.length > 0" v-on:click="showConfirmationModal" id="delete-comments-button">
+            Delete all comments
+        </button>
+    </TextBox>
+
+    <Modal v-if="modalActive" title="Warning" option1="Nevermind" option2="Yup!" 
+            @o1="modalActive = false" @o2="deleteAllComments">
         This action cannot be undone. Are you sure you want to continue?
     </Modal>
-    
 </div>`;
 
 import { TextBox } from '../components/textbox.js';
@@ -79,7 +79,7 @@ const Contact = {
                 greyed: false,
             },
             error: "",
-            modalActive: true,
+            modalActive: false,
         }
     },
     template: ContactTemplate,
@@ -150,12 +150,15 @@ const Contact = {
         removeLastComment(){
             this.comments.splice(0, 1);
         },
+        // Opens the "are you sure?" modal
+        showConfirmationModal() {
+            this.modalActive = true;
+        },
         // Deletes all comments from the server and then refreshes the visible comments
-        async deleteAllComments(showWarning){
-            // Make sure the user knows what they're getting themselves into
-            if (showWarning) {
-                // TODO: be better
-            }
+        async deleteAllComments(){
+
+            // Close the modal if it was open
+            this.modalActive = false;
 
             // Delete all comments from the server
             try {
@@ -192,7 +195,7 @@ const Contact = {
             else if (castNewNum <= this.comments.length){
                 this.comments = this.comments.slice(0, castNewNum);
             }
-        }
+        },
     },
 };
 

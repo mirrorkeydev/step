@@ -3,12 +3,16 @@
  */
 
 const ModalTemplate = 
-`<div class="modal-container">
-    <h3 class="modal-title"> {{ title }} </h3>
-    <div class="modal-text"><slot></slot></div>
-    <div class="modal-buttons">
-        <button @click="$emit('option1-clicked')" class="modal-button"> {{ option1 }} </button>
-        <button @click="$emit('option2-clicked')" class="modal-button"> {{ option2 }} </button>
+`<div>
+    <div class="modal-mask">
+    </div>
+    <div class="modal-container">
+        <h3 class="modal-title"> {{ title }} </h3>
+        <div class="modal-text"><slot></slot></div>
+        <div class="modal-buttons">
+            <button @click="$emit('o1')" class="modal-button"> {{ option1 }} </button>
+            <button @click="$emit('o2')" class="modal-button"> {{ option2 }} </button>
+        </div>
     </div>
 </div>`;
 
