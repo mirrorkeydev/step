@@ -55,6 +55,10 @@ textarea {
   width: 100%;
 }
 
+.greyed {
+  color: #bcbcbc;
+}
+
 /**
  ** Header and Nav Bar
  **/
@@ -226,6 +230,7 @@ textarea {
   box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
   -moz-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
   -webkit-box-shadow: 0px 0px 48px -6px rgba(186,186,186,0.7);
+  color: #333333;
   font-size: 18px;
   margin: 20px auto;
   padding: 30px;
@@ -331,14 +336,8 @@ textarea {
  * Commentbox
  */
 
-#contact-form {
-  padding: 20px;
-  margin: 0px 0px 20px 0px;
-}
-
 .commentbox-container {
-  border-top: 2px solid #d0d0d0;
-  color: #333333;
+  border-top: 1px solid #d0d0d0;
   padding: 20px;
 }
 
@@ -359,6 +358,44 @@ textarea {
 }
 
 /*
+ * Contact page (contact.js)
+ */
+
+#contact-form {
+  padding: 20px 20px 0px 20px;
+}
+
+#num-comments-form {
+  padding: 0px 20px 20px 20px;
+  text-align: right;
+}
+
+#num-comments-label {
+  color: #3c3c3c;
+  font-size: 15px;
+  margin: 0px 5px 0px 0px;
+}
+
+#num-comments {
+  background-color: #f7f7f7;
+  border: none;
+  color: #333333;
+  font-size: 13px;
+  outline: none;
+  padding: 5px;
+}
+
+#error-bar {
+  background-color: #ffdbdb;
+  border-radius: 5px;
+  color: #9a2929;
+  font-size: 16px;
+  margin: 10px 20px;
+  padding: 10px;
+  text-align: center;
+}
+
+/*
  * Responsivity (media queries)
  */
 
@@ -371,7 +408,6 @@ textarea {
   .textbox-title {
     margin: 50px 0px 0px 30%;
   }
-  
   
   .preview-container {
     width: 40%;
@@ -393,4 +429,7 @@ textarea {
     font-size: 15px;
   }
 
+  #contact-group {
+    font-size: 14px;
+  }
 }

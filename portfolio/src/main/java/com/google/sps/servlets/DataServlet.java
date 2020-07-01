@@ -17,6 +17,7 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
@@ -24,13 +25,14 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/** Servlet that allows the client to create and read comments */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
@@ -46,16 +48,28 @@ public class DataServlet extends HttpServlet {
         }
     }
 
-    /** GETs all comments stored by the server */
+    /** GETs a user-defined number of comments stored by the server. */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+        // Get the input from the form.
+        int numberOfCommentsToShow;
+        if (request.getParameter("num-comments") != null && !request.getParameter("num-comments").isEmpty()){
+            try {
+                numberOfCommentsToShow = Integer.parseInt(request.getParameter("num-comments"));
+            } catch (Exception e) {
+                // If parsing fails (non-numeric input), we silently fall back on showing 10 comments
+                numberOfCommentsToShow = 10;
+            }
+        }
+
         Query query = new Query("Comment").addSort("datetime", SortDirection.DESCENDING);
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery results = datastore.prepare(query);
+        List<Entity> results = numberOfCommentsToShow >= 0 ? datastore.prepare(query).asList(FetchOptions.Builder.withLimit(numberOfCommentsToShow))
+                                                          : datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
 
         ArrayList<Comment> comments = new ArrayList<Comment>();
-        for (Entity entity : results.asIterable()) {
+        for (Entity entity : results) {
             String author = (String) entity.getProperty("author");
             String body = (String) entity.getProperty("body");
             Date datetime = (Date) entity.getProperty("datetime");
@@ -71,12 +85,13 @@ public class DataServlet extends HttpServlet {
         response.getWriter().println(json);
     }
 
-    /** POST a new comment to the server */
+    /** POST a new comment to the server. */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
         // Get the input from the form.
-        String body = getParameter(request, "comment", "");
-        String author = getParameter(request, "name", "Anonymous");
+        String body = getParameter(request, "body", "");
+        String author = getParameter(request, "author", "Anonymous");
         Date datetime = new Date();
 
         // Check for validity.
@@ -89,7 +104,7 @@ public class DataServlet extends HttpServlet {
 
             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
             datastore.put(commentEntity);
-        }   
+        }
 
         // Redirect back to the Contact page.
         response.sendRedirect("/#/contact");
@@ -97,7 +112,7 @@ public class DataServlet extends HttpServlet {
 
     /**
     * @return the request parameter, or the default value if the parameter
-    *         was not specified by the client
+    *         was not specified by the client.
     */
     private String getParameter(HttpServletRequest request, String name, String defaultValue) {
         String value = request.getParameter(name);
