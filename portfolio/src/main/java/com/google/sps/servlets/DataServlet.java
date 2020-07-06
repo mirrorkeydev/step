@@ -18,7 +18,6 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
@@ -31,94 +30,98 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /** Servlet that allows the client to create and read comments */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-    public class Comment {
-        String body;
-        String author;
-        Date date;
+  public class Comment {
+    String body;
+    String author;
+    Date date;
 
-        public Comment(String body, String author, Date date) {
-            this.body = body;
-            this.author = author;
-            this.date = date;
-        }
+    public Comment(String body, String author, Date date) {
+      this.body = body;
+      this.author = author;
+      this.date = date;
+    }
+  }
+
+  /** GETs a user-defined number of comments stored by the server. */
+  @Override
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+    // Get the input from the form.
+    int numberOfCommentsToShow = 0;
+    if (request.getParameter("num-comments") != null
+        && !request.getParameter("num-comments").isEmpty()) {
+      try {
+        numberOfCommentsToShow = Integer.parseInt(request.getParameter("num-comments"));
+      } catch (Exception e) {
+        // If parsing fails (non-numeric input), we silently fall back on showing 10 comments
+        numberOfCommentsToShow = 10;
+      }
     }
 
-    /** GETs a user-defined number of comments stored by the server. */
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Query query = new Query("Comment").addSort("datetime", SortDirection.DESCENDING);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    List<Entity> results =
+        numberOfCommentsToShow >= 0
+            ? datastore
+                .prepare(query)
+                .asList(FetchOptions.Builder.withLimit(numberOfCommentsToShow))
+            : datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
 
-        // Get the input from the form.
-        int numberOfCommentsToShow = 0;
-        if (request.getParameter("num-comments") != null && !request.getParameter("num-comments").isEmpty()){
-            try {
-                numberOfCommentsToShow = Integer.parseInt(request.getParameter("num-comments"));
-            } catch (Exception e) {
-                // If parsing fails (non-numeric input), we silently fall back on showing 10 comments
-                numberOfCommentsToShow = 10;
-            }
-        }
+    ArrayList<Comment> comments = new ArrayList<Comment>();
+    for (Entity entity : results) {
+      String author = (String) entity.getProperty("author");
+      String body = (String) entity.getProperty("body");
+      Date datetime = (Date) entity.getProperty("datetime");
 
-        Query query = new Query("Comment").addSort("datetime", SortDirection.DESCENDING);
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        List<Entity> results = numberOfCommentsToShow >= 0 ? datastore.prepare(query).asList(FetchOptions.Builder.withLimit(numberOfCommentsToShow))
-                                                          : datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
-
-        ArrayList<Comment> comments = new ArrayList<Comment>();
-        for (Entity entity : results) {
-            String author = (String) entity.getProperty("author");
-            String body = (String) entity.getProperty("body");
-            Date datetime = (Date) entity.getProperty("datetime");
-
-            Comment comment = new Comment(body, author, datetime);
-            comments.add(comment);
-        }
-
-        Gson gson = new Gson();
-        String json = gson.toJson(comments);
-
-        response.setContentType("text/json;");
-        response.getWriter().println(json);
+      Comment comment = new Comment(body, author, datetime);
+      comments.add(comment);
     }
 
-    /** POST a new comment to the server. */
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Gson gson = new Gson();
+    String json = gson.toJson(comments);
 
-        // Get the input from the form.
-        String body = getParameter(request, "body", "");
-        String author = getParameter(request, "author", "Anonymous");
-        Date datetime = new Date();
+    response.setContentType("text/json;");
+    response.getWriter().println(json);
+  }
 
-        // Check for validity.
-        if (!body.isEmpty()) {
-            // Buld the new comment.
-            Entity commentEntity = new Entity("Comment");
-            commentEntity.setProperty("author", author);
-            commentEntity.setProperty("body", body);
-            commentEntity.setProperty("datetime", datetime);
+  /** POST a new comment to the server. */
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-            datastore.put(commentEntity);
-        }
+    // Get the input from the form.
+    String body = getParameter(request, "body", "");
+    String author = getParameter(request, "author", "Anonymous");
+    Date datetime = new Date();
 
-        // Redirect back to the Contact page.
-        response.sendRedirect("/#/contact");
+    // Check for validity.
+    if (!body.isEmpty()) {
+      // Buld the new comment.
+      Entity commentEntity = new Entity("Comment");
+      commentEntity.setProperty("author", author);
+      commentEntity.setProperty("body", body);
+      commentEntity.setProperty("datetime", datetime);
+
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.put(commentEntity);
     }
 
-    /**
-    * @return the request parameter, or the default value if the parameter
-    *         was not specified by the client.
-    */
-    private String getParameter(HttpServletRequest request, String name, String defaultValue) {
-        String value = request.getParameter(name);
-        if (value == null || value.isEmpty()) {
-            return defaultValue;
-        }
-        return value;
+    // Redirect back to the Contact page.
+    response.sendRedirect("/#/contact");
+  }
+
+  /**
+   * @return the request parameter, or the default value if the parameter was not specified by the
+   *     client.
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null || value.isEmpty()) {
+      return defaultValue;
     }
+    return value;
+  }
 }
