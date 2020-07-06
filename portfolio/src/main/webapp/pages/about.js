@@ -2,7 +2,7 @@
  * The about page of the website.
  */
 
-const AboutTemplate = 
+const AboutTemplate =
 `<div id="body-container">
 
   <TextBox title="About">
@@ -22,7 +22,9 @@ const AboutTemplate =
     <IconTitle icon="far fa-building fa-2x">Working</IconTitle>
     <ul>
       <li><i>2020 Summer:</i> STEP Intern @ Google</li>
-      <li><i>2019 - Present:</i> Student Software Developer @ Center for Applied Systems and Software</li>
+      <li><i>2019 - Present:</i>
+        Student Software Developer @ Center for Applied Systems and Software
+      </li>
     </ul>
 
     <IconTitle icon="far fa-file-code fa-2x">Writing</IconTitle>
@@ -57,15 +59,15 @@ const AboutTemplate =
 
 </div>`;
 
-import { TextBox } from '../components/textbox.js';
-import { IconTitle } from '../components/icontitle.js';
+import {TextBox} from '../components/textbox.js';
+import {IconTitle} from '../components/icontitle.js';
 
 const About = {
-    template: AboutTemplate,
-    components: {
-        'TextBox': TextBox,
-        'IconTitle': IconTitle,
-    },
+  template: AboutTemplate,
+  components: {
+    'TextBox': TextBox,
+    'IconTitle': IconTitle,
+  },
 };
 
-export { About };
+export {About};

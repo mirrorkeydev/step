@@ -3,7 +3,7 @@
  * Contains preview boxes for other pages on the site.
  */
 
-const HomeTemplate = 
+const HomeTemplate =
 `<div id="body-container">
 
   <PreviewBox title="About" url="/about" moreText="read more" >
@@ -20,23 +20,29 @@ const HomeTemplate =
 
   <PreviewBox title="Contact" url="/contact" moreText="more ways to reach me" >
     <div class="preview-icons-grid">
-      <a class="icon-link" href="mailto:mirrorkeydev@gmail.com"><i class="fas fa-envelope fa-3x"></i></a>
-      <a class="icon-link" href="https://www.linkedin.com/in/mgutzmann"><i class="fab fa-linkedin-in fa-3x"></i></a>
-      <a class="icon-link" href="https://github.com/mirrorkeydev"><i class="fab fa-github fa-3x"></i></a>
+      <a class="icon-link" href="mailto:mirrorkeydev@gmail.com">
+        <i class="fas fa-envelope fa-3x"></i>
+      </a>
+      <a class="icon-link" href="https://www.linkedin.com/in/mgutzmann">
+        <i class="fab fa-linkedin-in fa-3x"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/mirrorkeydev">
+        <i class="fab fa-github fa-3x"></i>
+      </a>
     </div>
   </PreviewBox>
 
 </div>`;
 
-import { PreviewBox } from '../components/previewbox.js';
-import { CaptionedImage } from '../components/captionedimage.js';
+import {PreviewBox} from '../components/previewbox.js';
+import {CaptionedImage} from '../components/captionedimage.js';
 
 const Home = {
-    template: HomeTemplate,
-    components: {
-      'PreviewBox': PreviewBox,
-      'CaptionedImage': CaptionedImage,
-    },
+  template: HomeTemplate,
+  components: {
+    'PreviewBox': PreviewBox,
+    'CaptionedImage': CaptionedImage,
+  },
 };
 
-export { Home };
+export {Home};

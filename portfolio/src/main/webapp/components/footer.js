@@ -3,7 +3,7 @@
  * Dates the page and gives font credit.
  */
 
-const FooterTemplate = 
+const FooterTemplate =
 `<div id="footer-container">
   <div id="footer-text">
     Last updated 2020.
@@ -13,7 +13,7 @@ const FooterTemplate =
 </div>`;
 
 const Footer = {
-    template: FooterTemplate,
+  template: FooterTemplate,
 };
 
-export { Footer };
+export {Footer};

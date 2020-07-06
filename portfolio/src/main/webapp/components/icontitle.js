@@ -3,17 +3,17 @@
  * Used sequentially, all icons/text are vertically aligned.
  */
 
-const IconTitleTemplate = 
+const IconTitleTemplate =
 `<div class="icontitle-container">
-    <div class="icontitle-icon-container">
-        <div class="icontitle-icon"><i :class="icon"></i></div>
-    </div>
-    <h3><slot></slot></h3>
+  <div class="icontitle-icon-container">
+    <div class="icontitle-icon"><i :class="icon"></i></div>
+  </div>
+  <h3><slot></slot></h3>
 </div>`;
 
 const IconTitle = {
-    props: ['icon'],
-    template: IconTitleTemplate,
+  props: ['icon'],
+  template: IconTitleTemplate,
 };
 
-export { IconTitle };
+export {IconTitle};
