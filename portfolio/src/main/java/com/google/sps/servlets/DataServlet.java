@@ -21,6 +21,9 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -48,7 +51,7 @@ public class DataServlet extends HttpServlet {
         }
     }
 
-    /** GETs a user-defined number of comments stored by the server. */
+    /** GETs a user-defined number of comments translated to a user-defined language. */
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
@@ -78,10 +81,25 @@ public class DataServlet extends HttpServlet {
             comments.add(comment);
         }
 
+        // Do the translation.
+        String languageToTranslateTo = request.getParameter("lang-comments");
+        if (!languageToTranslateTo.equals("original")) {
+            Translate translate = TranslateOptions.getDefaultInstance().getService();
+            for (Comment comment : comments) {
+                Translation translation =
+                    translate.translate(comment.body, 
+                    Translate.TranslateOption.targetLanguage(languageToTranslateTo),
+                    Translate.TranslateOption.format("text"));
+                String translatedText = translation.getTranslatedText();
+                comment.body = translatedText;
+            }
+        }
+
         Gson gson = new Gson();
         String json = gson.toJson(comments);
 
-        response.setContentType("text/json;");
+        response.setContentType("text/json; charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
         response.getWriter().println(json);
     }
 
