@@ -37,7 +37,7 @@ const ContactTemplate =
     </div>
   </TextBox>
 
-  <TextBox :title="this.serverNumComments + ' Comment' + (this.serverNumComments != 1 ? 's' : '')">
+  <TextBox :title="commentBoxTitle">
     <form @submit.prevent="addNewComment" id="contact-form">
       <input type="text" id="name" name="name" placeholder="Name"
         autocomplete="off" v-model="commentDraft.author"><br>
@@ -48,9 +48,10 @@ const ContactTemplate =
     </form>
     <div v-if="this.error.length > 0" id="error-bar"> {{ error }} </div>
     <div id="num-comments-form">
-      <label v-if="this.comments.length > 0" id="num-comments-label">Language:</label>
+      <label v-if="this.comments.length > 0" id="num-comments-label">Translate to:</label>
       <select v-if="this.comments.length > 0" v-model="commentLangToShow"
           id="lang-comments" name="lang-comments">
+        <option value="original">Original Language</option>
         <option value="ar">Arabic</option>
         <option value="bn">Bengali</option>
         <option value="zh">Chinese</option>
@@ -115,6 +116,8 @@ const Contact = {
       error: '',
       // Whether or not the confirmation modal is displayed.
       modalActive: false,
+      // The title above the comments box.
+      commentBoxTitle: '',
     };
   },
   template: ContactTemplate,
@@ -189,6 +192,14 @@ const Contact = {
       this.comments.splice(0, 1);
       this.serverNumComments--;
     },
+    // Changes the "greyed" property of all comments to the passed-in value.
+    greyAllComments(greyed) {
+      for (const c of this.comments) {
+        if (!c.greyed || c.greyed != greyed) {
+          this.$set(c, 'greyed', greyed);
+        }
+      }
+    },
     // Opens the "are you sure?" modal.
     showConfirmationModal() {
       this.modalActive = true;
@@ -215,7 +226,8 @@ const Contact = {
   },
   async mounted() {
     // Get the comments from the server and add them to component's local state
-    this.comments = await (await fetch('/data?num-comments=-1')).json();
+    this.commentBoxTitle = 'Loading Comments ...';
+    this.comments = await (await fetch('/data?num-comments=-1&lang-comments=en')).json();
     this.serverNumComments = this.comments.length;
   },
   watch: {
@@ -226,8 +238,9 @@ const Contact = {
 
       // If the user requests more comments than we currently have locally,
       // then we need to ask the datastore for more
-      if (castNewNum > castOldNum) {
-        this.comments = await (await fetch('/data?num-comments=' + newNum)).json();
+      if (castNewNum == -1 || castNewNum > castOldNum) {
+        this.comments = await (await fetch('/data?num-comments=' + newNum +
+          '&lang-comments=' + this.commentLangToShow)).json();
       } else if (castNewNum <= this.comments.length) {
         // Else, they're asking for an amount of comments that we already have locally,
         // so just show them the first n comments
@@ -236,7 +249,14 @@ const Contact = {
     },
     // When the user picks a new comment language, rerun the comment query to show them
     async commentLangToShow(newLang, oldLang) {
-      console.log('did thing!');
+      this.greyAllComments(true);
+      this.comments = await (await fetch('/data?num-comments=' + this.numCommentsToShow +
+        '&lang-comments=' + newLang)).json();
+      this.greyAllComments(false);
+    },
+    // Update the commentbox title when the number of comments changes
+    serverNumComments(newNum, oldNum) {
+      this.commentBoxTitle = newNum + ' Comment' + (newNum != 1 ? 's' : '');
     },
   },
 };
