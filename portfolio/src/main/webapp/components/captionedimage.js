@@ -2,22 +2,22 @@
  * An image with a title and caption to the left of it.
  */
 
-const CaptionedImageTemplate = 
+const CaptionedImageTemplate =
 `<div class="preview-img-w-text">
-    <div class="preview-img-text">
-        <div class="preview-subtitle">
-            {{ caption }}
-        </div>
-        <div class="preview-img-description">
-            <slot></slot>
-        </div>
+  <div class="preview-img-text">
+    <div class="preview-subtitle">
+      {{ caption }}
     </div>
-    <img class="preview-img" :src="imgUrl" alt="Apptract icon">
+    <div class="preview-img-description">
+      <slot></slot>
+    </div>
+  </div>
+  <img class="preview-img" :src="imgUrl" alt="Apptract icon">
 </div>`;
 
 const CaptionedImage = {
-    props: ['caption', 'imgUrl'],
-    template: CaptionedImageTemplate,
+  props: ['caption', 'imgUrl'],
+  template: CaptionedImageTemplate,
 };
 
-export { CaptionedImage };
+export {CaptionedImage};

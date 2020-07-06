@@ -3,7 +3,7 @@
  * a grid of projects I've worked on.
  */
 
-const ProjectsTemplate = 
+const ProjectsTemplate =
 `<div id="body-container">
 
   <h2 class="centered">Projects</h2>
@@ -73,13 +73,13 @@ const ProjectsTemplate =
 
 </div>`;
 
-import { ImageBox } from '../components/imagebox.js';
+import {ImageBox} from '../components/imagebox.js';
 
 const Projects = {
-    template: ProjectsTemplate,
-    components: {
-      'ImageBox': ImageBox,
-    },
+  template: ProjectsTemplate,
+  components: {
+    'ImageBox': ImageBox,
+  },
 };
 
-export { Projects };
+export {Projects};

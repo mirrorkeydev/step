@@ -3,17 +3,17 @@
  * May also contain other content, such as images.
  */
 
-const TextBoxTemplate = 
+const TextBoxTemplate =
 `<div>
-    <div class="textbox-title"> {{ title }} </div>
-    <div class="textbox">
-        <slot></slot>
-    </div>
+  <div class="textbox-title"> {{ title }} </div>
+  <div class="textbox">
+    <slot></slot>
+  </div>
 </div>`;
 
 const TextBox = {
-    template: TextBoxTemplate,
-    props: ['title'],
+  template: TextBoxTemplate,
+  props: ['title'],
 };
 
-export { TextBox };
+export {TextBox};
