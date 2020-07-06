@@ -20,6 +20,9 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -46,39 +49,48 @@ public class DataServlet extends HttpServlet {
     }
   }
 
-  /** GETs a user-defined number of comments stored by the server. */
-  @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+/** GETs a user-defined number of comments translated to a user-defined language. */
+@Override
+public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     // Get the input from the form.
     int numberOfCommentsToShow = 0;
-    if (request.getParameter("num-comments") != null
-        && !request.getParameter("num-comments").isEmpty()) {
-      try {
-        numberOfCommentsToShow = Integer.parseInt(request.getParameter("num-comments"));
-      } catch (Exception e) {
-        // If parsing fails (non-numeric input), we silently fall back on showing 10 comments
-        numberOfCommentsToShow = 10;
-      }
+    if (request.getParameter("num-comments") != null && !request.getParameter("num-comments").isEmpty()){
+        try {
+            numberOfCommentsToShow = Integer.parseInt(request.getParameter("num-comments"));
+        } catch (Exception e) {
+            // If parsing fails (non-numeric input), we silently fall back on showing 10 comments
+            numberOfCommentsToShow = 10;
+        }
     }
 
     Query query = new Query("Comment").addSort("datetime", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    List<Entity> results =
-        numberOfCommentsToShow >= 0
-            ? datastore
-                .prepare(query)
-                .asList(FetchOptions.Builder.withLimit(numberOfCommentsToShow))
-            : datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
+    List<Entity> results = numberOfCommentsToShow >= 0 ? datastore.prepare(query).asList(FetchOptions.Builder.withLimit(numberOfCommentsToShow))
+                                                      : datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
 
     ArrayList<Comment> comments = new ArrayList<Comment>();
     for (Entity entity : results) {
-      String author = (String) entity.getProperty("author");
-      String body = (String) entity.getProperty("body");
-      Date datetime = (Date) entity.getProperty("datetime");
+        String author = (String) entity.getProperty("author");
+        String body = (String) entity.getProperty("body");
+        Date datetime = (Date) entity.getProperty("datetime");
 
-      Comment comment = new Comment(body, author, datetime);
-      comments.add(comment);
+        Comment comment = new Comment(body, author, datetime);
+        comments.add(comment);
+    }
+
+    // Do the translation.
+    String languageToTranslateTo = request.getParameter("lang-comments");
+    if (!languageToTranslateTo.equals("original")) {
+        Translate translate = TranslateOptions.getDefaultInstance().getService();
+        for (Comment comment : comments) {
+            Translation translation =
+                translate.translate(comment.body, 
+                Translate.TranslateOption.targetLanguage(languageToTranslateTo),
+                Translate.TranslateOption.format("text"));
+            String translatedText = translation.getTranslatedText();
+            comment.body = translatedText;
+        }
     }
 
     Gson gson = new Gson();
