@@ -28,7 +28,6 @@ jobs:
     - name: Google Java Format
       uses: axel-op/googlejavaformat-action@v3.1.0
       with:
-        fetch-depth: 0
         ref: ${{ github.event.pull_request.head.ref }}
 
     # Lint everything!
