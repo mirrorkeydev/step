@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Linter
+name: Super Linter
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -19,9 +19,6 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
- 
-    - name: Google Java Format
-      uses: axel-op/googlejavaformat-action@v3.1.0
 
     # Lint everything!
     - name: Super-Linter
@@ -32,11 +29,3 @@ jobs:
         JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.yml	
         VALIDATE_CSS: true
         
-    - uses: actions/checkout@v2
-      with:
-        ref: ${{ github.event.pull_request.head.ref }}
-        
-    # Format Java to Google's specs
-    - uses: actions/setup-java@v1
-      with:
-          java-version: "11"
