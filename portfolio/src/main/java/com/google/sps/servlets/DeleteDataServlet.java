@@ -40,6 +40,7 @@ public class DeleteDataServlet extends HttpServlet {
     /** Deletes all comments. */
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        System.out.println("Deleting all comments");
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         PreparedQuery results = datastore.prepare(new Query("Comment"));
         ArrayList<Key> keys = new ArrayList<Key>();
