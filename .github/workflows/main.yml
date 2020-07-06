@@ -19,6 +19,8 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
 
     # Format Java to Google's specs
     - uses: actions/setup-java@v1
@@ -27,8 +29,6 @@ jobs:
  
     - name: Google Java Format
       uses: axel-op/googlejavaformat-action@v3.1.0
-      with:
-        ref: ${{ github.event.pull_request.head.ref }}
 
     # Lint everything!
     - name: Super-Linter
