@@ -18,7 +18,6 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.cloud.language.v1.Document;
@@ -36,7 +35,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 /** Servlet that allows the client to create and read comments */
 @WebServlet("/data")
@@ -150,15 +148,19 @@ public class DataServlet extends HttpServlet {
         datastore.put(commentEntity);
     }
 
-    /**
-    * @return the request parameter, or the default value if the parameter
-    *         was not specified by the client.
-    */
-    private String getParameter(HttpServletRequest request, String name, String defaultValue) {
-        String value = request.getParameter(name);
-        if (value == null || value.isEmpty()) {
-            return defaultValue;
-        }
-        return value;
+    // Redirect back to the Contact page.
+    response.sendRedirect("/#/contact");
+  }
+
+  /**
+   * @return the request parameter, or the default value if the parameter was not specified by the
+   *     client.
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null || value.isEmpty()) {
+      return defaultValue;
     }
+    return value;
+  }
 }

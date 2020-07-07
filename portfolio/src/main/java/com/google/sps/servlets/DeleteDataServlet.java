@@ -17,40 +17,33 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /** Servlet that allows the client to delete comments. */
 @WebServlet("/delete-data")
 public class DeleteDataServlet extends HttpServlet {
 
-    /** Deletes all comments. */
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("Deleting all comments");
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        PreparedQuery results = datastore.prepare(new Query("Comment"));
-        ArrayList<Key> keys = new ArrayList<Key>();
+  /** Deletes all comments. */
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(new Query("Comment"));
+    ArrayList<Key> keys = new ArrayList<Key>();
 
-        for (Entity commentEntity : results.asIterable()) {
-            keys.add(commentEntity.getKey());
-        }
-
-        datastore.delete(keys);
-
-        response.setStatus(200);
+    for (Entity commentEntity : results.asIterable()) {
+      keys.add(commentEntity.getKey());
     }
+
+    datastore.delete(keys);
+
+    response.setStatus(200);
+  }
 }
