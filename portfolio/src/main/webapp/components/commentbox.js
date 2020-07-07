@@ -18,17 +18,16 @@ const CommentBox = {
   props: ['author', 'date', 'sentiment'],
   computed: {
       statusColor() {
-        if (this.sentiment < -0.5) {
-          return '#ff8383';
-        }
-        else if (this.sentiment < 0) {
-          return '#ffd283';
-        }
-        else if (this.sentiment >= 0) {
-          return '#abe658';
+        const colors = ['#f75d5d', '#f3885d', '#efb15d', '#ebd75d', 
+          '#d3e75d', '#a9e25e', '#a9e25e'];
+
+        if (this.sentiment >= -1 && this.sentiment <= 1) {
+          // Map the range of -1, 1 to the indices in colors (0 to 6)
+          // and retrieve the color that corresponds to the sentiment value.
+          return colors[Math.floor((this.sentiment + 1)/(2/7))];
         }
         else {
-          return '#fff';
+          return '#d5d5d5';
         }
       }
   }

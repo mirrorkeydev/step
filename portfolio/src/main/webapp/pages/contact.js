@@ -73,7 +73,7 @@ const ContactTemplate =
         <option value="-1">all</option>s
       </select>
     </div>
-    <Comment v-for="comment in comments" :author="comment.author" :sentiment="0"
+    <Comment v-for="comment in comments" :author="comment.author" :sentiment="comment.sentiment"
       :date="comment.date" :class="{ greyed: comment.greyed }">
       {{ comment.body }}
     </Comment>
@@ -145,7 +145,7 @@ const Contact = {
 
       // Then, try and add it to the server
       const vueInstance = this;
-      let sentimentScore = 0;
+      let sentimentScore = 2;
       try {
         const response = await fetch('/data', {
           method: 'POST',
@@ -159,20 +159,21 @@ const Contact = {
         } 
         else {
           sentimentScore = parseFloat(await response.text());
-          if (sentimentScore < -0.7){
-            throw new Error(`Your comment's sentiment was rated as ${sentimentScore} on a 
-              scale from -1 to 1, which is too negative to post. Please reword your comment.`)
+          console.log(sentimentScore);
+          if (sentimentScore <= -0.7){
+            throw "Please reword your comment to be more constructive.";
           }
         }
       } catch (err) {
         vueInstance.removeLastComment();
-        vueInstance.error = err;
+        vueInstance.error = "Unable to add comment: " + err;
+        console.warn(err);
         return;
       }
 
       // If we don't get an error, we can assume everything went well and un-grey out the comment
       this.comments[0].greyed = false;
-      //this.comments[0].sentiment = sentimentScore;
+      this.comments[0].sentiment = sentimentScore;
 
       // Clear the text fields
       this.commentDraft.author = '';
@@ -193,7 +194,7 @@ const Contact = {
             year: 'numeric', month: 'short', day: 'numeric',
             hour: 'numeric', minute: 'numeric', second: 'numeric',
           });
-      comment.sentiment = 0;
+      comment.sentiment = 2;
       this.comments.unshift(Object.assign({}, comment));
       this.serverNumComments++;
     },

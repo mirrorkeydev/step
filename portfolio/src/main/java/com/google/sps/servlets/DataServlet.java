@@ -46,11 +46,13 @@ public class DataServlet extends HttpServlet {
         String body;
         String author;
         Date date;
+        Double sentiment;
 
-        public Comment(String body, String author, Date date) {
+        public Comment(String body, String author, Date date, Double sentiment) {
             this.body = body;
             this.author = author;
             this.date = date;
+            this.sentiment = sentiment;
         }
     }
 
@@ -79,8 +81,9 @@ public class DataServlet extends HttpServlet {
             String author = (String) entity.getProperty("author");
             String body = (String) entity.getProperty("body");
             Date datetime = (Date) entity.getProperty("datetime");
+            Double sentiment = (Double) entity.getProperty("sentiment");
 
-            Comment comment = new Comment(body, author, datetime);
+            Comment comment = new Comment(body, author, datetime, sentiment);
             comments.add(comment);
         }
 
@@ -141,6 +144,7 @@ public class DataServlet extends HttpServlet {
         commentEntity.setProperty("author", author);
         commentEntity.setProperty("body", body);
         commentEntity.setProperty("datetime", datetime);
+        commentEntity.setProperty("sentiment", score);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         datastore.put(commentEntity);
