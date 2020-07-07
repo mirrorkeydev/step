@@ -377,6 +377,14 @@ label {
   margin: 10px 0 0 0;
 }
 
+.commentbox-status {
+  border-radius: 50%;
+  display: inline-block;
+  height: 12px;
+  margin: 0px 5px 0px 0px;
+  width: 12px;
+}
+
 /*
  * Modal
  */

@@ -21,6 +21,9 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
@@ -113,19 +116,34 @@ public class DataServlet extends HttpServlet {
         Date datetime = new Date();
 
         // Check for validity.
-        if (!body.isEmpty()) {
-            // Buld the new comment.
-            Entity commentEntity = new Entity("Comment");
-            commentEntity.setProperty("author", author);
-            commentEntity.setProperty("body", body);
-            commentEntity.setProperty("datetime", datetime);
+        if (body.isEmpty()) {
+            response.setStatus(400);
+            return;
+        }   
+        
+        // Check the sentiment of the comment entered
+        Document doc =
+            Document.newBuilder().setContent(body).setType(Document.Type.PLAIN_TEXT).build();
+        LanguageServiceClient languageService = LanguageServiceClient.create();
+        Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+        float score = sentiment.getScore();
+        languageService.close();
 
-            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-            datastore.put(commentEntity);
+        response.setStatus(200);
+        response.getWriter().println(score);
+
+        if (score < -0.7) {
+            return;
         }
 
-        // Redirect back to the Contact page.
-        response.sendRedirect("/#/contact");
+        // Buld the new comment.
+        Entity commentEntity = new Entity("Comment");
+        commentEntity.setProperty("author", author);
+        commentEntity.setProperty("body", body);
+        commentEntity.setProperty("datetime", datetime);
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        datastore.put(commentEntity);
     }
 
     /**
