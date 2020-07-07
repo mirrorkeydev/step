@@ -385,6 +385,41 @@ label {
   width: 12px;
 }
 
+.commentbox-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.commentbox-tooltip-text {
+  background-color: #6b6b6b;
+  border-radius: 6px;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  visibility: hidden;
+  width: 120px;
+  font-size: 15px;
+  position: absolute;
+  z-index: 1;
+  top: -13px;
+  right: 200%;
+}
+
+.commentbox-tooltip:hover .commentbox-tooltip-text {
+  visibility: visible;
+}
+
+.commentbox-tooltip .commentbox-tooltip-text::after {
+  content: " ";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent #6b6b6b;
+}
+
 /*
  * Modal
  */

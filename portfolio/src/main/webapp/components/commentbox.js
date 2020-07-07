@@ -5,7 +5,13 @@
 const CommentBoxTemplate =
 `<div class="commentbox-container">
   <div class="commentbox-author">
-    <div class="commentbox-status" :style="{ backgroundColor: statusColor }"></div> {{ author }}
+    <div class="commentbox-status commentbox-tooltip" :style="{ backgroundColor: statusColor }">
+      <div class="commentbox-tooltip-text">
+        Sentiment: {{ roundedSentiment }}
+      </div>
+    </div>
+  
+    {{ author }}
   </div>
   <div class="commentbox-date"> {{ date }} UTC</div>
   <div class="commentbox-body">
@@ -29,6 +35,9 @@ const CommentBox = {
         else {
           return '#d5d5d5';
         }
+      },
+      roundedSentiment() {
+        return Math.round((this.sentiment + Number.EPSILON) * 100) / 100;
       }
   }
 };
