@@ -104,7 +104,7 @@ const Contact = {
       // The language to which to translate the comments, dropdown defined.
       commentLangToShow: 'en',
       // The total number of comments existing in the Datastore.
-      serverNumComments: 0,
+      serverNumComments: -1,
       // The comment that the user drafts in the text input fields.
       commentDraft: {
         author: '',
@@ -159,7 +159,6 @@ const Contact = {
         } 
         else {
           sentimentScore = parseFloat(await response.text());
-          console.log(sentimentScore);
           if (sentimentScore <= -0.7){
             throw "Please reword your comment to be more constructive.";
           }
@@ -231,7 +230,8 @@ const Contact = {
       }
 
       // Refresh the comments that the user sees
-      this.comments = await (await fetch('/data?num-comments=' + this.numCommentsToShow)).json();
+      this.comments = await (await fetch('/data?num-comments=' + this.numCommentsToShow +
+        '&lang-comments=' + this.commentLangToShow)).json();
       this.serverNumComments = 0;
     },
   },
