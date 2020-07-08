@@ -60,7 +60,8 @@ public class DataServlet extends HttpServlet {
 
     // Get the input from the form.
     int numberOfCommentsToShow = 0;
-    if (request.getParameter("num-comments") != null && !request.getParameter("num-comments").isEmpty()){
+    if (request.getParameter("num-comments") != null
+        && !request.getParameter("num-comments").isEmpty()) {
       try {
         numberOfCommentsToShow = Integer.parseInt(request.getParameter("num-comments"));
       } catch (Exception e) {
@@ -71,8 +72,12 @@ public class DataServlet extends HttpServlet {
 
     Query query = new Query("Comment").addSort("datetime", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    List<Entity> results = numberOfCommentsToShow >= 0 ? datastore.prepare(query).asList(FetchOptions.Builder.withLimit(numberOfCommentsToShow))
-                                                      : datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
+    List<Entity> results =
+        numberOfCommentsToShow >= 0
+            ? datastore
+                .prepare(query)
+                .asList(FetchOptions.Builder.withLimit(numberOfCommentsToShow))
+            : datastore.prepare(query).asList(FetchOptions.Builder.withDefaults());
 
     ArrayList<Comment> comments = new ArrayList<Comment>();
     for (Entity entity : results) {
@@ -91,9 +96,10 @@ public class DataServlet extends HttpServlet {
       Translate translate = TranslateOptions.getDefaultInstance().getService();
       for (Comment comment : comments) {
         Translation translation =
-          translate.translate(comment.body, 
-          Translate.TranslateOption.targetLanguage(languageToTranslateTo),
-          Translate.TranslateOption.format("text"));
+            translate.translate(
+                comment.body,
+                Translate.TranslateOption.targetLanguage(languageToTranslateTo),
+                Translate.TranslateOption.format("text"));
         String translatedText = translation.getTranslatedText();
         comment.body = translatedText;
       }
@@ -120,11 +126,10 @@ public class DataServlet extends HttpServlet {
     if (body.isEmpty()) {
       response.setStatus(400);
       return;
-    }   
-      
+    }
+
     // Check the sentiment of the comment entered
-    Document doc =
-        Document.newBuilder().setContent(body).setType(Document.Type.PLAIN_TEXT).build();
+    Document doc = Document.newBuilder().setContent(body).setType(Document.Type.PLAIN_TEXT).build();
     LanguageServiceClient languageService = LanguageServiceClient.create();
     Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
     float score = sentiment.getScore();
