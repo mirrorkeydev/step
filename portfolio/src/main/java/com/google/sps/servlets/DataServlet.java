@@ -40,6 +40,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  public static final float SENTIMENT_THRESHOLD = -0.7f;
+
   public class Comment {
     String body;
     String author;
@@ -133,7 +135,7 @@ public class DataServlet extends HttpServlet {
     response.setStatus(200);
     response.getWriter().println(score);
 
-    if (score < -0.7) {
+    if (score < SENTIMENT_THRESHOLD) {
       return;
     }
 
