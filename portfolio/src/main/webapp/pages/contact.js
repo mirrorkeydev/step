@@ -73,7 +73,7 @@ const ContactTemplate =
         <option value="-1">all</option>s
       </select>
     </div>
-    <Comment v-for="comment in comments" :author="comment.author" 
+    <Comment v-for="comment in comments" :author="comment.author" :sentiment="comment.sentiment"
       :date="comment.date" :class="{ greyed: comment.greyed }">
       {{ comment.body }}
     </Comment>
@@ -145,6 +145,7 @@ const Contact = {
 
       // Then, try and add it to the server
       const vueInstance = this;
+      let sentimentScore = 2;
       try {
         const response = await fetch('/data', {
           method: 'POST',
@@ -155,15 +156,24 @@ const Contact = {
         });
         if (!response.ok) {
           throw new Error(response.status);
+        } 
+        else {
+          sentimentScore = parseFloat(await response.text());
+          console.log(sentimentScore);
+          if (sentimentScore <= -0.7){
+            throw "Please reword your comment to be more constructive.";
+          }
         }
       } catch (err) {
         vueInstance.removeLastComment();
-        vueInstance.error = 'Error trying to add comment: ' + err;
+        vueInstance.error = "Unable to add comment: " + err;
+        console.warn(err);
         return;
       }
 
       // If we don't get an error, we can assume everything went well and un-grey out the comment
       this.comments[0].greyed = false;
+      this.comments[0].sentiment = sentimentScore;
 
       // Clear the text fields
       this.commentDraft.author = '';
@@ -184,6 +194,7 @@ const Contact = {
             year: 'numeric', month: 'short', day: 'numeric',
             hour: 'numeric', minute: 'numeric', second: 'numeric',
           });
+      comment.sentiment = 2;
       this.comments.unshift(Object.assign({}, comment));
       this.serverNumComments++;
     },
@@ -227,8 +238,12 @@ const Contact = {
   async mounted() {
     // Get the comments from the server and add them to component's local state
     this.commentBoxTitle = 'Loading Comments ...';
-    this.comments = await (await fetch('/data?num-comments=-1&lang-comments=en')).json();
-    this.serverNumComments = this.comments.length;
+    try {
+      this.comments = await (await fetch('/data?num-comments=-1&lang-comments=en')).json();
+      this.serverNumComments = this.comments.length;
+    } catch (err) {
+      console.warn(err);
+    }
   },
   watch: {
     // When the user picks a new number of comments, adjust the list to show that many

@@ -20,6 +20,9 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import com.google.cloud.translate.Translate;
 import com.google.cloud.translate.TranslateOptions;
 import com.google.cloud.translate.Translation;
@@ -37,15 +40,19 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  public static final float SENTIMENT_THRESHOLD = -0.7f;
+
   public class Comment {
     String body;
     String author;
     Date date;
+    Double sentiment;
 
-    public Comment(String body, String author, Date date) {
+    public Comment(String body, String author, Date date, Double sentiment) {
       this.body = body;
       this.author = author;
       this.date = date;
+      this.sentiment = sentiment;
     }
   }
 
@@ -79,8 +86,9 @@ public class DataServlet extends HttpServlet {
       String author = (String) entity.getProperty("author");
       String body = (String) entity.getProperty("body");
       Date datetime = (Date) entity.getProperty("datetime");
+      Double sentiment = (Double) entity.getProperty("sentiment");
 
-      Comment comment = new Comment(body, author, datetime);
+      Comment comment = new Comment(body, author, datetime, sentiment);
       comments.add(comment);
     }
 
@@ -102,7 +110,8 @@ public class DataServlet extends HttpServlet {
     Gson gson = new Gson();
     String json = gson.toJson(comments);
 
-    response.setContentType("text/json;");
+    response.setContentType("text/json; charset=UTF-8");
+    response.setCharacterEncoding("UTF-8");
     response.getWriter().println(json);
   }
 
@@ -116,19 +125,34 @@ public class DataServlet extends HttpServlet {
     Date datetime = new Date();
 
     // Check for validity.
-    if (!body.isEmpty()) {
-      // Buld the new comment.
-      Entity commentEntity = new Entity("Comment");
-      commentEntity.setProperty("author", author);
-      commentEntity.setProperty("body", body);
-      commentEntity.setProperty("datetime", datetime);
-
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-      datastore.put(commentEntity);
+    if (body.isEmpty()) {
+      response.setStatus(400);
+      return;
     }
 
-    // Redirect back to the Contact page.
-    response.sendRedirect("/#/contact");
+    // Check the sentiment of the comment entered
+    Document doc = Document.newBuilder().setContent(body).setType(Document.Type.PLAIN_TEXT).build();
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    float score = sentiment.getScore();
+    languageService.close();
+
+    response.setStatus(200);
+    response.getWriter().println(score);
+
+    if (score < SENTIMENT_THRESHOLD) {
+      return;
+    }
+
+    // Buld the new comment.
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("author", author);
+    commentEntity.setProperty("body", body);
+    commentEntity.setProperty("datetime", datetime);
+    commentEntity.setProperty("sentiment", score);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
   }
 
   /**
