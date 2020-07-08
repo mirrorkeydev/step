@@ -381,28 +381,28 @@ label {
   border-radius: 50%;
   display: inline-block;
   height: 12px;
-  margin: 0px 5px 0px 0px;
+  margin: 0 5px 0 0;
   width: 12px;
 }
 
 .commentbox-tooltip {
-  position: relative;
   display: inline-block;
+  position: relative;
 }
 
 .commentbox-tooltip-text {
   background-color: #6b6b6b;
   border-radius: 6px;
   color: #fff;
+  font-size: 15px;
   padding: 10px;
+  position: absolute;
+  right: 200%;
   text-align: center;
+  top: -13px;
   visibility: hidden;
   width: 120px;
-  font-size: 15px;
-  position: absolute;
   z-index: 1;
-  top: -13px;
-  right: 200%;
 }
 
 .commentbox-tooltip:hover .commentbox-tooltip-text {
@@ -410,14 +410,14 @@ label {
 }
 
 .commentbox-tooltip .commentbox-tooltip-text::after {
+  border-color: transparent transparent transparent #6b6b6b;
+  border-style: solid;
+  border-width: 5px;
   content: " ";
-  position: absolute;
-  top: 50%;
   left: 100%;
   margin-top: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent transparent transparent #6b6b6b;
+  position: absolute;
+  top: 50%;
 }
 
 /*
