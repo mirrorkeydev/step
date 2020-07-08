@@ -10,7 +10,6 @@ const CommentBoxTemplate =
         Sentiment: {{ roundedSentiment }}
       </div>
     </div>
-  
     {{ author }}
   </div>
   <div class="commentbox-date"> {{ date }} UTC</div>
