@@ -59,7 +59,7 @@ public final class FindMeetingQuery {
       }
 
       // If we managed to set lastSuccessfulProposedRange and it's at least as long as was
-      // requested, then it's a timerange in which nobody has conflicts and fits the request, 
+      // requested, then it's a timerange in which nobody has conflicts and fits the request,
       // so we add it to our final tally.
       if (lastSuccessfulProposedRange != null
           && lastSuccessfulProposedRange.duration() >= (int) request.getDuration()) {
