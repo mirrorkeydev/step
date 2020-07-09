@@ -21,6 +21,10 @@ import java.util.Iterator;
 import java.util.Set;
  
 public final class FindMeetingQuery {
+
+  public final int INCLUSIVE_END_OF_DAY = TimeRange.END_OF_DAY + 1;
+
+  /** Returns the timeranges >= the proposed meeting length in which all attendees are free to attend. */
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
 
     // Get all attendees invited to this new event.
@@ -29,64 +33,40 @@ public final class FindMeetingQuery {
     // For each attendee, get all other events they are involved with.
     HashMap<String, ArrayList<Event>> attendeesEvents = getEventsWithAttendees(events, attendees);
     
-    int startTime = TimeRange.START_OF_DAY;
-    int proposedMeetingDuration = (int) request.getDuration();
     ArrayList<TimeRange> compatibleRanges = new ArrayList<>();
-    int lastRangeDuration = 30;
+    int lastRangeDuration = 0;
 
-    // For each possible start time from SOD to (EOD-duration) in 30 minute increments,
-    // find the biggest possible open ranges for all attendees.
-    for (int i = startTime; i <= TimeRange.END_OF_DAY+1; i += lastRangeDuration) {
+    // Start testing start times, slowly incrementing the range from a given start until it's invalid.
+    for (int i = TimeRange.START_OF_DAY; i <= INCLUSIVE_END_OF_DAY; i += lastRangeDuration) {
 
       TimeRange lastSuccessfulProposedRange = null;
 
       // Every iteration, we "append" 30min to the last proposed range and see if it's still valid.
-      for (int j = 30; j + i <= TimeRange.END_OF_DAY+1; j += 30) {
+      for (int j = 30; j + i <= INCLUSIVE_END_OF_DAY; j += 30) {
 
+        // Increase the last proposedRange by 30 minutes.
         TimeRange proposedRange = TimeRange.fromStartDuration(i, j);
-        boolean proposedRangeWorksForAll = true;
 
-        // Check if any of the attendees have conflicts.
-        for (String attendee : attendees) {
-          if (attendeesEvents.get(attendee) != null) {
-            ArrayList<Event> attendeeEvents = attendeesEvents.get(attendee);
-
-            for (Event event : attendeeEvents) {
-              if (event.getWhen().overlaps(proposedRange)) {
-                proposedRangeWorksForAll = false;
-                break;
-              }
-            }
-          }
-        }
-
-        // If we managed to append 30min to our proposed range without overlapping anybody else's
-        // events, then we can update the last 'successful' (works for everyone) range.
-        if (proposedRangeWorksForAll) {
+        // Check if the new proposedRange works for everyone.
+        if (noAttendeesHaveConflictWithTime(attendees, attendeesEvents, proposedRange)) {
           lastSuccessfulProposedRange = proposedRange;
-
-          // If we're gonna fail the loop conditions on our next loop, make sure to save.
-          if (i + j + 30 > TimeRange.END_OF_DAY+1 && lastSuccessfulProposedRange.duration() >= proposedMeetingDuration) {
-            compatibleRanges.add(lastSuccessfulProposedRange);
-            lastRangeDuration = lastSuccessfulProposedRange.duration();
-          }
         }
-        // Else, this appending of 30min DID overlap an event, and the last successfully proposed range
-        // is the maximum range, and we should use that (if it's not null, that is)
-        else if (lastSuccessfulProposedRange != null && lastSuccessfulProposedRange.duration() >= proposedMeetingDuration) {
-          compatibleRanges.add(lastSuccessfulProposedRange);
-          lastRangeDuration = lastSuccessfulProposedRange.duration();
-          break;
-        }
-        // Else, even our 30min slot was too long and we have to move on.
         else {
-          lastRangeDuration = 30;
           break;
         }
-
       }
+
+      // If we managed to set lastSuccessfulProposedRange and it's at least as long as was requested,
+      // then it's a timerange in which nobody has conflicts and fits the request, so we add it to our final tally.
+      if (lastSuccessfulProposedRange != null && lastSuccessfulProposedRange.duration() >= (int) request.getDuration()) {
+        compatibleRanges.add(lastSuccessfulProposedRange);
+      }
+
+      // Increment the tested startTime by the time of the last successfully proposed range (or the default 30 minutes).
+      lastRangeDuration = lastSuccessfulProposedRange != null ? lastSuccessfulProposedRange.duration() : 30;
     }
 
+    // Return the final list of all ranges that are compatible with attendees' calendars.
     return compatibleRanges;
   }
 
@@ -118,4 +98,26 @@ public final class FindMeetingQuery {
 
     return attendeesEvents;
   }
+
+  /** Returns true if none of the given attendees have a time conflict with the proposed time range, false otherwise. */
+  public boolean noAttendeesHaveConflictWithTime(Collection<String> attendees, HashMap<String, ArrayList<Event>> attendeesEvents, TimeRange proposedRange) {
+
+    // For each attendee, retrieve all the events associated with them.
+    for (String attendee : attendees) {
+
+      if (attendeesEvents.get(attendee) != null) {
+        ArrayList<Event> attendeeEvents = attendeesEvents.get(attendee);
+        
+        // If any of the attendee's prior events overlap with the proposed time range,
+        // then we have an attendee with a time conflict, and we can return false.
+        for (Event event : attendeeEvents) {
+          if (event.getWhen().overlaps(proposedRange)) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
 }
