@@ -24,7 +24,7 @@ public final class FindMeetingQuery {
   public final int INCLUSIVE_END_OF_DAY = TimeRange.END_OF_DAY + 1;
 
   /**
-   * Returns the timeranges >= the proposed meeting length in which all attendees are free to
+   * Returns the timeranges >= the proposed meeting length for which all attendees are free to
    * attend.
    */
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
@@ -59,9 +59,8 @@ public final class FindMeetingQuery {
       }
 
       // If we managed to set lastSuccessfulProposedRange and it's at least as long as was
-      // requested,
-      // then it's a timerange in which nobody has conflicts and fits the request, so we add it to
-      // our final tally.
+      // requested, then it's a timerange in which nobody has conflicts and fits the request, 
+      // so we add it to our final tally.
       if (lastSuccessfulProposedRange != null
           && lastSuccessfulProposedRange.duration() >= (int) request.getDuration()) {
         compatibleRanges.add(lastSuccessfulProposedRange);
