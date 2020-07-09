@@ -23,6 +23,9 @@ import java.util.Set;
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
 
+    // Edge cases:
+    // meeting duration of 0
+
     // Idea:
     // 1) get all attendees
     // 2) get all events associated with those attendees
@@ -41,43 +44,91 @@ public final class FindMeetingQuery {
     for (String attendee : attendees) {
       System.out.print(attendee);
       System.out.print(" with events: ");
-      for (Event aevents : attendeesEvents.get(attendee)) {
-        System.out.print(aevents.getTitle());
-        System.out.print(" happening at ");
-        System.out.print(aevents.getWhen().start()/60.0);
-        System.out.print(" - ");
-        System.out.println(aevents.getWhen().end()/60.0);
+      if (attendeesEvents.get(attendee) != null) {
+        for (Event aevents : attendeesEvents.get(attendee)) {
+          System.out.print(aevents.getTitle());
+          System.out.print(" happening at ");
+          System.out.print(aevents.getWhen().start()/60.0);
+          System.out.print(" - ");
+          System.out.println(aevents.getWhen().end()/60.0);
+        }
+      }
+      else {
+        System.out.print("none");
       }
       System.out.print(", ");
     }
     System.out.println("");
 
-    int startTime = TimeRange.getTimeInMinutes(8, 0);
+    int startTime = TimeRange.START_OF_DAY;
     int proposedMeetingDuration = (int) request.getDuration();
-
     ArrayList<TimeRange> compatibleRanges = new ArrayList<>();
+    int lastRangeDuration = 30;
 
-    // For each possible start time from 8:00am - (9:00pm-duration) in 30 minute increments,
-    // check if that range works with each attendee invited to the new event.
-    for (int i = startTime; i < TimeRange.getTimeInMinutes(21, 0) - proposedMeetingDuration; i += 30) {
-      
-      TimeRange proposedRange = TimeRange.fromStartDuration(i, proposedMeetingDuration);
-      boolean proposedRangeWorks = true;
+    // For each possible start time from SOD to (EOD-duration) in 30 minute increments,
+    // find the biggest possible open ranges for all attendees.
+    for (int i = startTime; i <= TimeRange.END_OF_DAY+1; i += lastRangeDuration) {
+      System.out.println("We are trying starttime: " + i/60.0 + " (i = " + i + ")");
 
-      for (String attendee : attendees) {
-        ArrayList<Event> attendeeEvents = attendeesEvents.get(attendee);
+      TimeRange lastSuccessfulProposedRange = null;
 
-        for (Event event : attendeeEvents) {
-          if (event.getWhen().overlaps(proposedRange)) {
-            proposedRangeWorks = false;
-            break;
+      // Every iteration, we "append" 30min to the last proposed range and see if it's still valid.
+      for (int j = 30; j + i <= TimeRange.END_OF_DAY+1; j += 30) {
+
+        TimeRange proposedRange = TimeRange.fromStartDuration(i, j);
+        boolean proposedRangeWorksForAll = true;
+
+        System.out.println("We add 30 min to start time to get proposed range: " + proposedRange.start()/60.0 + " - " + proposedRange.end()/60.0 + " (j = " + j + ")");
+
+        // Check if any of the attendees have conflicts.
+        for (String attendee : attendees) {
+          if (attendeesEvents.get(attendee) != null) {
+            ArrayList<Event> attendeeEvents = attendeesEvents.get(attendee);
+
+            for (Event event : attendeeEvents) {
+              if (event.getWhen().overlaps(proposedRange)) {
+                proposedRangeWorksForAll = false;
+                System.out.println("That time didn't work.");
+                break;
+              }
+            }
           }
         }
+
+        // If we managed to append 30min to our proposed range without overlapping anybody else's
+        // events, then we can update the last 'successful' (works for everyone) range.
+        if (proposedRangeWorksForAll) {
+          System.out.println("That time worked for everyone!");
+          lastSuccessfulProposedRange = proposedRange;
+
+          // If we're gonna fail the loop conditions on our next loop, make sure to save.
+          if (i + j + 30 > TimeRange.END_OF_DAY+1 && lastSuccessfulProposedRange.duration() >= proposedMeetingDuration) {
+            System.out.println("This was our last loop.");
+            compatibleRanges.add(lastSuccessfulProposedRange);
+            lastRangeDuration = lastSuccessfulProposedRange.duration();
+          }
+        }
+        // Else, this appending of 30min DID overlap an event, and the last successfully proposed range
+        // is the maximum range, and we should use that (if it's not null, that is)
+        else if (lastSuccessfulProposedRange != null && lastSuccessfulProposedRange.duration() >= proposedMeetingDuration) {
+          System.out.println("We had a last successful time, so we'll use that. It was: " + lastSuccessfulProposedRange.start()/60.0 + " - " + lastSuccessfulProposedRange.end()/60.0);
+          compatibleRanges.add(lastSuccessfulProposedRange);
+          lastRangeDuration = lastSuccessfulProposedRange.duration();
+          break;
+        }
+        // Else, even our 30min slot was too long and we have to move on.
+        else {
+          System.out.println("We didn't have a last successful time, so we move on.");
+          lastRangeDuration = 30;
+          break;
+        }
+
+        System.out.println("CHECK: j = " + (j+30) + ", i = " + i + ", i + j = " + (i + j+30) + ", EOD = " + (TimeRange.END_OF_DAY+1));
       }
 
-      if (proposedRangeWorks) {
-        compatibleRanges.add(proposedRange);
-      }
+      // We update the next start time by the duration of the last range we picked (or by the default, 30 minutes);
+      System.out.println("Alright, moving on to next start time.");
+      System.out.println("We are adding the last successfully proposed range, " + lastRangeDuration + " to our start time.");
     }
 
     System.out.print("We get ranges: \n");
@@ -88,7 +139,7 @@ public final class FindMeetingQuery {
     }
     System.out.println("\n----------");
 
-    return new ArrayList<TimeRange>();
+    return compatibleRanges;
   }
 
   /** Gets all events that the given attendees are a part of. */
