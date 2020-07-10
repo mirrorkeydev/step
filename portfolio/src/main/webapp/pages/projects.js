@@ -10,7 +10,7 @@ const ProjectsTemplate =
 
   <div class="imagebox-collection">
     <ImageBox title="Sprout (TBD)" link="#"
-    subtitle="Personal project" img="./assets/sprout2.png">
+    subtitle="Personal project" img="./assets/sprout.png">
       A dashboard that shows real-time statistics about my plants and their environment.
       Offers soil moisture charts for each plant connected to Sprout and
       environmental statistics about the plants' environment, including temperature/humidity.
@@ -32,7 +32,7 @@ const ProjectsTemplate =
     </ImageBox>
 
     <ImageBox title="Visualizations (2020)" link="https://github.com/mirrorkeydev/Visualizations"
-    subtitle="Personal project" img="./assets/visualizations2.png">
+    subtitle="Personal project" img="./assets/visualizations.png">
       Various visualizations created as an exercise in data processing. Includes
       interactive charts and original infographics, exploring data such as my Netflix
       binges and the patterns of texts to a friend.
@@ -44,7 +44,7 @@ const ProjectsTemplate =
     </ImageBox>
 
     <ImageBox title="CatSpot (2019)" link="https://github.com/mirrorkeydev/CatSpot"
-    subtitle="Web Development Final Project" img="./assets/catspot2.png">
+    subtitle="Web Development Final Project" img="./assets/catspot.png">
       A web app that allows students to track cat spottings on campus.
       Cats can be given names and assigned pictures, energy levels, sociability status,
       and a recent location. The interactive map shows cat spottings in the last 
