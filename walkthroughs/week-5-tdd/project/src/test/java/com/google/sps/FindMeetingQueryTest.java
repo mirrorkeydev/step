@@ -364,7 +364,7 @@ public final class FindMeetingQueryTest {
     // Events  :       |--A--|     |--B--|
     //         :             |--C*-|             (*optional)
     // Day     : |-----------------------------|
-    // Options : |--1--|                 |--3--|
+    // Options : |-----|                 |-----|
 
     Collection<Event> events =
         Arrays.asList(
@@ -378,7 +378,7 @@ public final class FindMeetingQueryTest {
                 Arrays.asList(PERSON_B)),
             new Event(
                 "Event 3",
-                TimeRange.fromStartDuration(TIME_0830AM, TIME_0900AM),
+                TimeRange.fromStartDuration(TIME_0830AM, DURATION_30_MINUTES),
                 Arrays.asList(PERSON_C)));
 
     MeetingRequest request =
@@ -489,7 +489,7 @@ public final class FindMeetingQueryTest {
                 Arrays.asList(PERSON_A)),
             new Event(
                 "Event 2",
-                TimeRange.fromStartEnd(TIME_0900AM, TIME_1100AM, false),
+                TimeRange.fromStartEnd(TIME_0900AM, TIME_0100PM, false),
                 Arrays.asList(PERSON_B)),
             new Event(
                 "Event 3",
