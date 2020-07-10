@@ -385,7 +385,6 @@ public final class FindMeetingQueryTest {
         new MeetingRequest(Arrays.asList(PERSON_A, PERSON_B), DURATION_30_MINUTES);
     request.addOptionalAttendee(PERSON_C);
 
-
     Collection<TimeRange> actual = query.query(events, request);
     Collection<TimeRange> expected =
         Arrays.asList(
@@ -479,7 +478,7 @@ public final class FindMeetingQueryTest {
     // Events  : |--A*-|       |---A*---|
     //         :       |----B*---|      |---B*--|     (*optional)
     // Day     : |------------------------------|
-    // Options : 
+    // Options :
 
     Collection<Event> events =
         Arrays.asList(

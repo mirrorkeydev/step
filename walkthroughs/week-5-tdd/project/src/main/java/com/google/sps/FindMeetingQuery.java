@@ -41,29 +41,33 @@ public final class FindMeetingQuery {
     allAttendees.addAll(mandatoryAttendees);
 
     // For each attendee, get all other events they are involved with.
-    HashMap<String, ArrayList<Event>> attendeesEvents = getEventsWithAttendees(events, allAttendees);
+    HashMap<String, ArrayList<Event>> attendeesEvents =
+        getEventsWithAttendees(events, allAttendees);
 
-    // Calculate the time ranges as if everyone was mandatory, just to see if there exists a "best case".
-    ArrayList<TimeRange>  compatibleRangesForAllAttendees = findTimeRangesForAttendees(allAttendees, attendeesEvents, (int) request.getDuration());
+    // Calculate the time ranges as if everyone was mandatory, just to see if there exists a "best
+    // case".
+    ArrayList<TimeRange> compatibleRangesForAllAttendees =
+        findTimeRangesForAttendees(allAttendees, attendeesEvents, (int) request.getDuration());
 
     // Calculate time ranges for mandatory attendees, but only if there are any - if there aren't,
     // we treat all optional attendees as mandatory since there's no distinction anymore.
     ArrayList<TimeRange> compatibleRangesForMandatoryAttendeesOnly = new ArrayList<>();
     if (mandatoryAttendees.size() > 0) {
-      compatibleRangesForMandatoryAttendeesOnly = findTimeRangesForAttendees(mandatoryAttendees, attendeesEvents, (int) request.getDuration());
+      compatibleRangesForMandatoryAttendeesOnly =
+          findTimeRangesForAttendees(
+              mandatoryAttendees, attendeesEvents, (int) request.getDuration());
     }
 
-    // If pretending everyone was mandatory (including optional attendees) didn't work (no results), 
+    // If pretending everyone was mandatory (including optional attendees) didn't work (no results),
     // then only use the ranges that actually correspond with the mandatory attendees.
     if (compatibleRangesForAllAttendees.size() == 0) {
       return compatibleRangesForMandatoryAttendeesOnly;
-    }
-    else {
+    } else {
       return compatibleRangesForAllAttendees;
     }
   }
 
-  /** 
+  /**
    * Gets all events that the given attendees are a part of.
    *
    * @param events all events, possibly including some for people we don't care about.
@@ -118,7 +122,8 @@ public final class FindMeetingQuery {
 
       TimeRange lastSuccessfulProposedRange = null;
 
-      // Every iteration, we "append" GRANULARITYmin to the last proposed range and see if it's still valid.
+      // Every iteration, we "append" GRANULARITYmin to the last proposed range and see if it's
+      // still valid.
       for (int j = GRANULARITY; j + i <= INCLUSIVE_END_OF_DAY; j += GRANULARITY) {
 
         // Increase the last proposedRange by GRANULARITY minutes.
@@ -143,7 +148,9 @@ public final class FindMeetingQuery {
       // Increment the tested startTime by the time of the last successfully proposed range (or the
       // default GRANULARITY minutes).
       lastRangeDuration =
-          lastSuccessfulProposedRange != null ? lastSuccessfulProposedRange.duration() : GRANULARITY;
+          lastSuccessfulProposedRange != null
+              ? lastSuccessfulProposedRange.duration()
+              : GRANULARITY;
     }
 
     return compatibleRanges;
