@@ -116,14 +116,14 @@ public final class FindMeetingQuery {
     ArrayList<TimeRange> compatibleRanges = new ArrayList<>();
     int lastRangeDuration = 0;
 
-    // Start testing start times, slowly incrementing the range from a given start until it's
-    // invalid.
+    // Start testing start times, slowly incrementing the range from a given start until the
+    // range becomes invalid (because it conflicts with someone's calendar).
     for (int i = TimeRange.START_OF_DAY; i <= INCLUSIVE_END_OF_DAY; i += lastRangeDuration) {
 
       TimeRange lastSuccessfulProposedRange = null;
 
-      // Every iteration, we "append" GRANULARITYmin to the last proposed range and see if it's
-      // still valid.
+      // Every iteration, we "append" GRANULARITY min. to the last proposed range and see if 
+      // it's still valid.
       for (int j = GRANULARITY; j + i <= INCLUSIVE_END_OF_DAY; j += GRANULARITY) {
 
         // Increase the last proposedRange by GRANULARITY minutes.
