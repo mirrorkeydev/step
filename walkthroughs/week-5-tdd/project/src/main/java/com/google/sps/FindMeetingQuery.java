@@ -122,7 +122,7 @@ public final class FindMeetingQuery {
 
       TimeRange lastSuccessfulProposedRange = null;
 
-      // Every iteration, we "append" GRANULARITY min. to the last proposed range and see if 
+      // Every iteration, we "append" GRANULARITY min. to the last proposed range and see if
       // it's still valid.
       for (int j = GRANULARITY; j + i <= INCLUSIVE_END_OF_DAY; j += GRANULARITY) {
 
