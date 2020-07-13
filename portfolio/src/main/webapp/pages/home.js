@@ -13,9 +13,7 @@ const HomeTemplate =
   <PreviewBox title="Projects" url="/projects" moreText="see more" >
     <CaptionedImage caption="Appstract (2018)" imgsource="./assets/appstract.png"
     captionHref="https://github.com/mirrorkeydev/Appstract"
-    imgHref="https://github.com/mirrorkeydev/Appstract"
-    imgsrcset="./assets/appstract-mobile.png 205w, ./assets/appstract.png 512w"
-    imgsizes="(max-width: 400px) 205px, 512px">
+    imgHref="https://github.com/mirrorkeydev/Appstract">
       An artistically abstract Android icon pack. 300+ icons supported across 25+ launchers.
       Built on the open source CandyBar dashboard. Available on the Google Play Store
       <a href="https://play.google.com/store/apps/details?id=com.melon.appstract&hl=en_US">here.</a>

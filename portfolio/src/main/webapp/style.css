@@ -191,13 +191,16 @@ label {
 /* The container for all text to the
    left of an image in a preview box */
 .preview-img-text {
-  max-width: 350px;
+  flex: 1 1 200px;
+  flex-shrink: 3;
+  max-width: 500px;
 }
 
 /* The image in a preview box */
 .preview-img {
   margin: 0;
   max-width: 400px;
+  width: 100%;
 }
 
 /* The top-level container for a
@@ -220,7 +223,7 @@ label {
 }
 
 .preview-img-img {
-  margin: 10px 0px;
+  margin: 10px 0;
 }
 
 /*
