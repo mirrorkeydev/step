@@ -58,6 +58,14 @@ const Home = {
         easing: 'easeInExpo',
         delay: anime.stagger(700, {direction: 'reverse'})
       });
+
+      // Failsafe: ensure that if the animation fails,
+      // we still show the elements in the correct location.
+      Array.from(document.getElementsByClassName("stagger")).forEach((el) => {
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0px)";
+      })
+
       this.$parent.vistedBefore = true;
     }
   },
