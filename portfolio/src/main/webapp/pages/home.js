@@ -6,11 +6,11 @@
 const HomeTemplate =
 `<div id="body-container">
 
-  <PreviewBox title="About" url="/about" moreText="read more" >
+  <PreviewBox title="About" url="/about" moreText="read more" class="stagger">
     Hello! My name is Melanie, and I'm a sophomore at Oregon State University.
   </PreviewBox>
 
-  <PreviewBox title="Projects" url="/projects" moreText="see more" >
+  <PreviewBox title="Projects" url="/projects" moreText="see more" class="stagger">
     <CaptionedImage caption="Appstract (2018)" imgsource="./assets/appstract.png"
     captionHref="https://github.com/mirrorkeydev/Appstract"
     imgHref="https://github.com/mirrorkeydev/Appstract">
@@ -20,7 +20,7 @@ const HomeTemplate =
     </CaptionedImage>
   </PreviewBox>
 
-  <PreviewBox title="Contact" url="/contact" moreText="more ways to reach me" >
+  <PreviewBox title="Contact" url="/contact" moreText="more ways to reach me" class="stagger">
     <div class="preview-icons-grid">
       <a class="icon-link" href="mailto:mirrorkeydev@gmail.com">
         <i class="fas fa-envelope fa-3x"></i>
@@ -44,6 +44,22 @@ const Home = {
   components: {
     'PreviewBox': PreviewBox,
     'CaptionedImage': CaptionedImage,
+  },
+  mounted() {
+    // Only play the staggering animation if the user is visiting the
+    // home page for the first time during their loaded page session.
+    if (!this.$parent.vistedBefore) {
+      anime({
+        targets: '.stagger',
+        translateY: -150,
+        direction: 'reverse',
+        opacity: 0,
+        duration: 750,
+        easing: 'easeInExpo',
+        delay: anime.stagger(700, {direction: 'reverse'})
+      });
+      this.$parent.vistedBefore = true;
+    }
   },
 };
 

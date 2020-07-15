@@ -54,5 +54,10 @@ const app = new Vue({
     'Footer': Footer,
   },
   template: mainTemplate,
+  data() {
+    return {
+      vistedBefore: false
+    }
+  },
 });
 /* eslint-enable no-unused-vars */
